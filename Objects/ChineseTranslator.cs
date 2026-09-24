@@ -8,10 +8,9 @@ using TesseractOCR.Enums;
 
 namespace HuwWenCapture.Objects {
     static class ChineseTranslator {
-        static bool isReady = false;
 
         public static string TranslateToEnglish(string chinese) {
-            if (!isReady) throw new Exception("Python Environment not initialized, call the Intialize() method.");
+            if (!PythonEngine.IsInitialized) throw new Exception("Python Environment not initialized, call the Intialize() method.");
 
             using (Py.GIL()) {                          // run python code within .NET
                 dynamic sys = Py.Import("sys");         // tell the Python Runtime where the base directory of the python code is.
@@ -35,13 +34,14 @@ namespace HuwWenCapture.Objects {
             } finally {
                 Debug.WriteLine("translator ready");
             }
-            isReady = true;
             return true;
         }
 
         public static void Shutdown() {
-            PythonEngine.Shutdown();
-            Debug.WriteLine("python engine shutdown complete");
+            if (PythonEngine.IsInitialized) {
+                PythonEngine.Shutdown();
+                Debug.WriteLine("python engine shutdown complete");
+            }
         }
     }
 }
