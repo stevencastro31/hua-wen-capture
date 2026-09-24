@@ -1,4 +1,4 @@
-﻿namespace HuwWenCapture {
+﻿namespace HuwWenCapture.Forms {
     partial class ScreenshotForm {
         /// <summary>
         /// Required designer variable.

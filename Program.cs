@@ -1,3 +1,4 @@
+using HuwWenCapture.Forms;
 using HuwWenCapture.Objects;
 using System.Runtime.CompilerServices;
 

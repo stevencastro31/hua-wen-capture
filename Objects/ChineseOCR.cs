@@ -1,12 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
+using System.Drawing;
 using System.Text;
+using System.Text.RegularExpressions;
 using TesseractOCR;
 using TesseractOCR.Enums;
 using TessImage = TesseractOCR.Pix.Image;
 using TessPage = TesseractOCR.Page;
-using System.Drawing;
 
 namespace HuwWenCapture.Objects {
     static class ChineseOCR {
@@ -25,7 +26,19 @@ namespace HuwWenCapture.Objects {
             page1.Dispose();
             page2.Dispose();
 
-            return score + ", " + raw.Replace(" ", "").Replace("\n", "");
+            return score + ", " + CleanOCRText(raw);
+        }
+
+        static string CleanOCRText(string text) {
+            // remove spaces between Chinese characters
+            text = Regex.Replace(text, @"(?<=[\u4E00-\u9FFF])\s+(?=[\u4E00-\u9FFF])", "");
+
+            // remove spaces before Chinese punctuation
+            text = Regex.Replace(text, @"\s+([，。！？；：、）】》』」])", "$1");
+
+            // remove spaces after opening punctuation/brackets
+            text = Regex.Replace(text,@"([（【《『「])\s+","$1");
+            return text.Trim();
         }
     }
 }

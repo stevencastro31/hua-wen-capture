@@ -10,7 +10,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows.Forms;
 
-namespace HuwWenCapture {
+namespace HuwWenCapture.Forms {
     public partial class ScreenshotForm : Form {
         private Bitmap? _screenshot;
         public Bitmap? screenCapture;
@@ -120,7 +120,15 @@ namespace HuwWenCapture {
             using Graphics g = Graphics.FromImage(crop);
             g.DrawImage(_screenshot, new Rectangle(0, 0, crop.Width, crop.Height), _region, GraphicsUnit.Pixel);
 
-            screenCapture = crop.Clone(new Rectangle(0, 0, crop.Width, crop.Height), crop.PixelFormat);
+            // scale the image up, for OCR
+            using Bitmap scaled = new Bitmap(crop.Width * 3, crop.Height * 3);
+            scaled.SetResolution(300, 300);
+            using Graphics g2 = Graphics.FromImage(scaled);
+            g2.InterpolationMode = InterpolationMode.HighQualityBicubic;
+            g2.PixelOffsetMode = PixelOffsetMode.HighQuality;
+            g2.DrawImage(crop, 0, 0, scaled.Width, scaled.Height);
+
+            screenCapture = scaled.Clone(new Rectangle(0, 0, scaled.Width, scaled.Height), PixelFormat.Format24bppRgb); // remove alpha channel
             DialogResult = DialogResult.OK;
         }
     }
