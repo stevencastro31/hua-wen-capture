@@ -14,7 +14,7 @@ namespace HuwWenCapture.Objects {
         static readonly Engine simChiEngine = new(@"./Data", Language.ChineseSimplified, EngineMode.LstmOnly);
         static readonly Engine traChiEngine = new(@"./Data", Language.ChineseTraditional, EngineMode.LstmOnly);
 
-        public static string PerformOCR(byte[] image) {
+        public static (string, float) PerformOCR(byte[] image) {
             TessImage img = TessImage.LoadFromMemory(image);
 
             TessPage page1 = simChiEngine.Process(img);
@@ -26,7 +26,7 @@ namespace HuwWenCapture.Objects {
             page1.Dispose();
             page2.Dispose();
 
-            return score + ", " + CleanOCRText(raw);
+            return (CleanOCRText(raw), score);
         }
 
         static string CleanOCRText(string text) {

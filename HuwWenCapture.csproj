@@ -9,6 +9,8 @@
 	</PropertyGroup>
 	<ItemGroup>
 		<PackageReference Include="AntdUI" Version="2.4.11" />
+		<PackageReference Include="jieba.NET" Version="0.42.2" />
+		<PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
 		<PackageReference Include="pythonnet" Version="3.1.0" />
 		<PackageReference Include="TesseractOCR" Version="5.5.2" />
 	</ItemGroup>
@@ -23,6 +25,12 @@
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="Data\chi_tra.traineddata">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\icon-204560.png">
+	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+	  </None>
+	  <None Update="Data\icon-234165.png">
 	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 	  </None>
 	  <None Update="PythonScripts\translate-zh_en.argosmodel">

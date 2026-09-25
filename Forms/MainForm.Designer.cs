@@ -102,7 +102,6 @@
             Mode = AntdUI.TAMode.Dark;
             Name = "MainForm";
             Text = "华文 Capture";
-            FormClosing += Form1_FormClosing;
             tabs1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
             ResumeLayout(false);

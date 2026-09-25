@@ -28,12 +28,11 @@ namespace HuwWenCapture.Objects {
                 await PythonEnvironment.EnsureReadyAsync(new Progress<string>(msg => Debug.WriteLine(msg)));
                 Runtime.PythonDLL = Directory.GetFiles(PythonEnvironment.RuntimeDir, "python31*.dll").First();
                 PythonEngine.Initialize();
+                Debug.WriteLine("translator ready");
             } catch (Exception ex) {
                 MessageBox.Show($"setup failed:\n{ex.Message}");
                 return false;
-            } finally {
-                Debug.WriteLine("translator ready");
-            }
+            } 
             return true;
         }
 
