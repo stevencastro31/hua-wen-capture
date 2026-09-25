@@ -105,31 +105,34 @@ namespace HuwWenCapture.Forms {
             e.Graphics.DrawRectangle(pen, _region);
         }
 
-        void CaptureScreen() {
+        private void CaptureScreen() {
             Rectangle bounds = Screen.GetBounds(Point.Empty);
             _screenshot = new Bitmap(bounds.Width, bounds.Height);
             using Graphics g = Graphics.FromImage(_screenshot);
             g.CopyFromScreen(bounds.Location, Point.Empty, bounds.Size);
         }
 
-        void CaptureRegion() {
+        private void CaptureRegion() {
             if (_screenshot == null) return;
             if (_region.Width < 1 || _region.Height < 1) return;
 
-            using Bitmap crop = new Bitmap(_region.Width, _region.Height);
+            Bitmap crop = new Bitmap(_region.Width, _region.Height);
             using Graphics g = Graphics.FromImage(crop);
             g.DrawImage(_screenshot, new Rectangle(0, 0, crop.Width, crop.Height), _region, GraphicsUnit.Pixel);
 
-            // scale the image up, for OCR
-            using Bitmap scaled = new Bitmap(crop.Width * 3, crop.Height * 3);
-            scaled.SetResolution(300, 300);
+            screenCapture = UpscaleImage(crop);
+            DialogResult = DialogResult.OK;
+        }
+
+        // scale the image up, for OCR
+        private Bitmap UpscaleImage(Bitmap bmp) {
+            using Bitmap scaled = new Bitmap(bmp.Width * 3, bmp.Height * 3);
+            scaled.SetResolution(300, 300); // 300, 300 DPI
             using Graphics g2 = Graphics.FromImage(scaled);
             g2.InterpolationMode = InterpolationMode.HighQualityBicubic;
             g2.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            g2.DrawImage(crop, 0, 0, scaled.Width, scaled.Height);
-
-            screenCapture = scaled.Clone(new Rectangle(0, 0, scaled.Width, scaled.Height), PixelFormat.Format24bppRgb); // remove alpha channel
-            DialogResult = DialogResult.OK;
+            g2.DrawImage(bmp, 0, 0, scaled.Width, scaled.Height);
+            return scaled.Clone(new Rectangle(0, 0, scaled.Width, scaled.Height), PixelFormat.Format24bppRgb); // remove alpha channel
         }
     }
 }
