@@ -19,6 +19,7 @@
 			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
 			<Link>PythonRuntime\%(RecursiveDir)%(Filename)%(Extension)</Link>
 		</None>
+		<Compile Remove="PythonBase\**\*.cs" />
 	</ItemGroup>
 	<ItemGroup>
 	  <None Update="Data\chi_sim.traineddata">
