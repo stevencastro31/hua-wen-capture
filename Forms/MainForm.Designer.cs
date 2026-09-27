@@ -31,8 +31,10 @@
             translationDisplay1 = new HuwWenCapture.Controls.TranslationDisplay();
             tabPage2 = new AntdUI.TabPage();
             tabPage3 = new AntdUI.TabPage();
+            panel1 = new AntdUI.Panel();
             tabs1.SuspendLayout();
             tabPage1.SuspendLayout();
+            panel1.SuspendLayout();
             SuspendLayout();
             // 
             // notifyIcon1
@@ -70,7 +72,6 @@
             // translationDisplay1
             // 
             translationDisplay1.BackColor = Color.White;
-            translationDisplay1.Dock = DockStyle.Fill;
             translationDisplay1.Location = new Point(0, 0);
             translationDisplay1.Name = "translationDisplay1";
             translationDisplay1.Size = new Size(884, 531);
@@ -92,18 +93,29 @@
             tabPage3.TabIndex = 2;
             tabPage3.Text = "Settings";
             // 
+            // panel1
+            // 
+            panel1.Controls.Add(tabs1);
+            panel1.Dock = DockStyle.Fill;
+            panel1.Location = new Point(0, 0);
+            panel1.Name = "panel1";
+            panel1.Size = new Size(884, 561);
+            panel1.TabIndex = 1;
+            panel1.Text = "panel1";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             ClientSize = new Size(884, 561);
-            Controls.Add(tabs1);
+            Controls.Add(panel1);
             Dark = true;
             Mode = AntdUI.TAMode.Dark;
             Name = "MainForm";
             Text = "华文 Capture";
             tabs1.ResumeLayout(false);
             tabPage1.ResumeLayout(false);
+            panel1.ResumeLayout(false);
             ResumeLayout(false);
         }
 
@@ -114,5 +126,6 @@
         private AntdUI.TabPage tabPage2;
         private AntdUI.TabPage tabPage3;
         private Controls.TranslationDisplay translationDisplay1;
+        private AntdUI.Panel panel1;
     }
 }

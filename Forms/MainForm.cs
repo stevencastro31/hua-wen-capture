@@ -29,8 +29,14 @@ namespace HuwWenCapture.Forms {
             if (!Directory.Exists(_capturesPath))
                 Directory.CreateDirectory(Path.Combine(_capturesPath));
 
+
+            Load += MainForm_Load;
             tabs1.Resize += OnTabsResize;
             FormClosing += OnFormClosing;
+        }
+
+        private void MainForm_Load(object? sender, EventArgs e) {
+            ChineseTranslator.Initialize();
         }
 
         // Form Events

@@ -7,10 +7,6 @@ namespace HuwWenCapture {
         [STAThread]
         static async Task Main() {
             ApplicationConfiguration.Initialize();
-
-            await ChineseTranslator.Initialize();
-            RuntimeHelpers.RunClassConstructor(typeof(ChineseOCR).TypeHandle);
-
             Application.Run(new MainForm());
         }
     }
