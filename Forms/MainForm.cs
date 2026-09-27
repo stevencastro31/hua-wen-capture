@@ -24,6 +24,7 @@ namespace HuwWenCapture.Forms {
             InitializeComponent();
             this.Font = new Font("Microsoft YaHei", 15F);
 
+            AntdUI.Config.ShowInWindowByNotification = true;
             HotkeyManager.SetForm(this);
             SetupNotifyIcon();
 
@@ -83,7 +84,7 @@ namespace HuwWenCapture.Forms {
         }
 
         private void OnFormShown(object? sender, EventArgs e) {
-            if (Properties.Settings.Default.StartMinimized) {
+            if (SettingsManager.StartMinimized) {
                 this.Hide();
                 this.WindowState = FormWindowState.Minimized;
             }

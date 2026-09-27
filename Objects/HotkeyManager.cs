@@ -16,8 +16,12 @@ namespace HuwWenCapture.Objects {
         public static Control Form { get; private set; }
 
         public static void SetForm(Control form) {
-            Unregister();
             Form = form;
+            RegisterHotkey();
+        }
+
+        public static void RegisterHotkey() {
+            Unregister();
             Register();
         }
 

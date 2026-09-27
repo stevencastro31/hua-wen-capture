@@ -102,6 +102,7 @@
             button1.Size = new Size(415, 40);
             button1.TabIndex = 6;
             button1.Text = "Save";
+            button1.Click += OnSaveButtonClick;
             // 
             // SettingDisplay
             // 

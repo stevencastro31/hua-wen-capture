@@ -7,6 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Drawing;
 using HuwWenCapture.Objects;
+using AntdUI;
 
 namespace HuwWenCapture.Controls {
     public partial class SettingDisplay : UserControl {
@@ -16,22 +17,20 @@ namespace HuwWenCapture.Controls {
             switch1.Checked = Properties.Settings.Default.StartMinimized;
             input1.Text = SettingsManager.CaptureHotkey;
             input2.Text = SettingsManager.CaptureDirectory;
-
-            switch1.CheckedChanged += OnStartMinimizedChanged;
-            input1.TextChanged += OnCaptureHotkeyChanged;
-            input2.TextChanged += OnCaptureDirectoryChanged;
         }
 
-        private void OnStartMinimizedChanged(object sender, AntdUI.BoolEventArgs e) {
-            //throw new NotImplementedException();
-        }
-
-        private void OnCaptureDirectoryChanged(object? sender, EventArgs e) {
-            //throw new NotImplementedException();
-        }
-
-        private void OnCaptureHotkeyChanged(object? sender, EventArgs e) {
-            //throw new NotImplementedException();
+        private void OnSaveButtonClick(object sender, EventArgs e) {
+            try {
+                SettingsManager.StartMinimized = switch1.Checked;
+                SettingsManager.CaptureHotkey = input1.Text;
+                HotkeyManager.RegisterHotkey();
+                SettingsManager.CaptureDirectory = input2.Text;
+            } catch (Exception ex) {
+                Notification.error(FindForm()!, "Error", ex.Message, TAlignFrom.BR, new Font("Microsoft YaHei", 10));
+            } finally {
+                SettingsManager.Save();
+                Notification.success(FindForm()!, "Saved", "Settings Saved", TAlignFrom.BR, new Font("Microsoft YaHei", 10));
+            }
         }
     }
 }
