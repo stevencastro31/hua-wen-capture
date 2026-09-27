@@ -23,7 +23,6 @@ namespace HuwWenCapture.Objects {
 
             foreach (string package in missing) {
                 status?.Report($"Installing {package}...");
-                Debug.WriteLine($"Installing {package}...");
                 await RunPipInstall(package);
             }
         }
@@ -31,7 +30,7 @@ namespace HuwWenCapture.Objects {
         private static async Task RunPipInstall(string package) {
             ProcessStartInfo psi = new ProcessStartInfo {
                 FileName = PythonExe,
-                Arguments = $"-m pip install {package}",
+                Arguments = $"-m pip install --no-cache-dir {package}",
                 WorkingDirectory = RuntimeDir,
                 RedirectStandardOutput = true,
                 RedirectStandardError = true,

@@ -82,7 +82,7 @@
             tabPage2.Name = "tabPage2";
             tabPage2.Size = new Size(0, 0);
             tabPage2.TabIndex = 1;
-            tabPage2.Text = "tabPage2";
+            tabPage2.Text = "Dictionary";
             // 
             // tabPage3
             // 
@@ -90,7 +90,7 @@
             tabPage3.Name = "tabPage3";
             tabPage3.Size = new Size(0, 0);
             tabPage3.TabIndex = 2;
-            tabPage3.Text = "tabPage3";
+            tabPage3.Text = "Settings";
             // 
             // MainForm
             // 

@@ -57,3 +57,13 @@ TestResult.xml
 nunit-*.xml
 
 .vs/
+
+# Python
+PythonBase/Lib/site-packages/*
+!PythonBase/Lib/site-packages/pip/
+!PythonBase/Lib/site-packages/pip-26.2.1.dist-info/
+PythonBase/Scripts/*
+PythonBase/Scripts/pip.exe
+PythonBase/Scripts/pip3.14.exe
+PythonBase/Scripts/pip3.exe
+PythonBase/share
