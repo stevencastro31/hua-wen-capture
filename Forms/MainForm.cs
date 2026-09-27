@@ -1,16 +1,19 @@
 using AntdUI;
 using HuwWenCapture.Controls;
 using HuwWenCapture.Objects;
+using HuwWenCapture.Properties;
 using Python.Runtime;
 using System.Data;
 using System.Diagnostics;
 using System.Drawing.Drawing2D;
 using System.Drawing.Imaging;
+using System.Drawing.Text;
 using System.IO;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Runtime.InteropServices;
 using System.Text;
+using TesseractOCR.Font;
 
 namespace HuwWenCapture.Forms {
     public partial class MainForm : AntdUI.BaseForm {
@@ -19,44 +22,19 @@ namespace HuwWenCapture.Forms {
 
         public MainForm() {
             InitializeComponent();
-            this.Font = new Font("DengXian", 14);
+            this.Font = new Font("Microsoft YaHei", 15F);
 
-            SetupNotifyIcon();
             HotkeyManager.SetForm(this);
+            SetupNotifyIcon();
 
-            string picturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
-            _capturesPath = Path.Combine(picturesPath, "HuaWenCapture");
-            if (!Directory.Exists(_capturesPath))
-                Directory.CreateDirectory(Path.Combine(_capturesPath));
-
-
-            Load += MainForm_Load;
+            Load += OnFormLoad;
             tabs1.Resize += OnTabsResize;
             FormClosing += OnFormClosing;
+            Shown += OnFormShown;
+
+            this.MinimumSize = new Size(800, 500);
         }
 
-        private void MainForm_Load(object? sender, EventArgs e) {
-            ChineseTranslator.Initialize();
-        }
-
-        // Form Events
-        private void OnFormClosing(object? sender, FormClosingEventArgs e) {
-            if (e.CloseReason == CloseReason.UserClosing) {
-                e.Cancel = true;
-                Hide();
-            } else {
-                ChineseTranslator.Shutdown();
-            }
-        }
-
-        private void OnTabsResize(object? sender, EventArgs e) {
-            translationDisplay1.ResizeColumns(tabs1.Width);
-        }
-
-        private void OnNotifyIconMouseDoubleClick(object sender, MouseEventArgs e) {
-            this.WindowState = FormWindowState.Normal;
-            this.Show();
-        }
 
         // Methods
         private void ScreenCapture() {
@@ -67,9 +45,7 @@ namespace HuwWenCapture.Forms {
         }
 
         private void ProcessScreenshot(Bitmap bmp) {
-            string filename = string.Format(@"{0}.png", Guid.NewGuid());
-            string filepath = Path.Combine(_capturesPath, filename);
-            bmp.Save(filepath, ImageFormat.Png);
+            string filepath = SaveScreenshot(bmp);
 
             MemoryStream stream = new();
             bmp.Save(stream, ImageFormat.Png);
@@ -79,6 +55,44 @@ namespace HuwWenCapture.Forms {
             string translatedEnglish = ChineseTranslator.TranslateToEnglish(rawChinese);
 
             translationDisplay1.AddEntry(score, rawChinese, translatedEnglish, filepath);
+            translationDisplay1.AddEntry(0.9F, "我迷路了！", "I am lost!", "test");
+        }
+
+        private string SaveScreenshot(Bitmap bmp) {
+            string filename = string.Format(@"{0}.png", Guid.NewGuid());
+            if (_capturesPath == null)
+                _capturesPath = SettingsManager.CaptureDirectory;
+            string filepath = Path.Combine(_capturesPath, filename);
+            bmp.Save(filepath, ImageFormat.Png);
+            return filepath;
+        }
+
+
+        // Form Events
+        private void OnFormLoad(object? sender, EventArgs e) {
+            ChineseTranslator.Initialize();
+        }
+
+        private void OnFormClosing(object? sender, FormClosingEventArgs e) {
+            if (e.CloseReason == CloseReason.UserClosing) {
+                e.Cancel = true;
+                this.Hide();
+            } else {
+                ChineseTranslator.Shutdown();
+            }
+        }
+
+        private void OnFormShown(object? sender, EventArgs e) {
+            if (Properties.Settings.Default.StartMinimized) {
+                this.Hide();
+                this.WindowState = FormWindowState.Minimized;
+            }
+        }
+
+
+        // Tab Events
+        private void OnTabsResize(object? sender, EventArgs e) {
+            translationDisplay1.ResizeColumns(tabs1.Width);
         }
 
         protected override void WndProc(ref System.Windows.Forms.Message m) {
@@ -87,6 +101,8 @@ namespace HuwWenCapture.Forms {
             base.WndProc(ref m);
         }
         
+
+        // Notify Icons
         private void SetupNotifyIcon() {
             notifyIcon1.Icon = SystemIcons.WinLogo;
             notifyIcon1.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
@@ -99,6 +115,11 @@ namespace HuwWenCapture.Forms {
         }
 
         // Context Menu Strip Events
+        private void OnNotifyIconMouseDoubleClick(object sender, MouseEventArgs e) {
+            this.WindowState = FormWindowState.Normal;
+            this.Show();
+        }
+
         private void OnContextMenuCaptureClick(object? sender, EventArgs e) {
             ScreenCapture();
         }

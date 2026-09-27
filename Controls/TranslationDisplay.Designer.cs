@@ -28,10 +28,12 @@
             // 
             // table1
             // 
+            table1.BackColor = Color.White;
             table1.ClipboardCopyFocusedCell = true;
             table1.Dock = DockStyle.Fill;
             table1.EditMode = AntdUI.TEditMode.DoubleClick;
             table1.Gap = 12;
+            table1.ImeMode = ImeMode.Disable;
             table1.Location = new Point(0, 0);
             table1.Name = "table1";
             table1.Size = new Size(500, 500);
@@ -42,6 +44,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            BackColor = Color.FromArgb(192, 255, 255);
             Controls.Add(table1);
             Name = "TranslationDisplay";
             Size = new Size(500, 500);

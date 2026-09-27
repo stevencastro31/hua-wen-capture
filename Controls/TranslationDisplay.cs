@@ -14,6 +14,8 @@ namespace HuwWenCapture.Controls {
 
         public TranslationDisplay() {
             InitializeComponent();
+            table1.Font = new Font("Microsoft YaHei", 17.25F);
+            table1.EmptyText = "NO DATA";
 
             _data.Columns.Add("id", typeof(int));
             _data.Columns.Add("score", typeof(float));
@@ -21,16 +23,18 @@ namespace HuwWenCapture.Controls {
             _data.Columns.Add("en-Translation", typeof(string));
             _data.Columns.Add("screenshot", typeof(string));
 
-            Column colID = new Column("id", "No.") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
-            Column colMS = new Column("score", "Score") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
-            Column colZH = new Column("zh-OCR", "Chinese/中文 (OCR/文字识别)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
-            Column colEN = new Column("en-Translation", "English/英文 (Translation/翻译)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
+            // No., Score, Actions, Chinese, English
+
+            Column colID = new Column("id", "号") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
+            Column colMS = new Column("score", "分数") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
+            Column colZH = new Column("zh-OCR", "中文 (OCR/文字识别)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
+            Column colEN = new Column("en-Translation", "英文 (Translation/翻译)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
 
             colMS.DisplayFormat = "0%";
 
-            Column colSS = new Column("screenshot", "Screenshot") {
+            Column colSS = new Column("screenshot", "操作") {
                 Render = (value, record, rowIndex) => {
-                    CellButton button = new CellButton($"{rowIndex}") { Text = "View" };
+                    CellButton button = new CellButton($"{rowIndex}") { Text = "查看" };  // view
                     button.Fore = Color.Blue;
                     return button;
                 },
@@ -72,7 +76,6 @@ namespace HuwWenCapture.Controls {
             table1.Columns["id"].Width = $"80";
             table1.Columns["screenshot"].Width = $"112";
             table1.Columns["score"].Width = $"80";
-
             int colWidth = (int)((width - 272) / 2);
             table1.Columns["zh-OCR"].Width = $"{colWidth}";
             table1.Columns["en-Translation"].Width = $"{colWidth}";
