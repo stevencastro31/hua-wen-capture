@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -7,15 +8,20 @@ using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
 using AntdUI;
+using HuwWenCapture.Forms;
+using HuwWenCapture.Objects;
+using JiebaNet.Segmenter;
+using DictionaryEntry = HuwWenCapture.Objects.DictionaryEntry;
 
 namespace HuwWenCapture.Controls {
     public partial class TranslationDisplay : UserControl {
-        private DataTable _data = new ();
+        private readonly DataTable _data = new ();
 
         public TranslationDisplay() {
             InitializeComponent();
             table1.Font = new Font("Microsoft YaHei", 17.25F);
             table1.EmptyText = "NO DATA";
+            table1.FixedHeader = true;
 
             _data.Columns.Add("id", typeof(int));
             _data.Columns.Add("score", typeof(float));
@@ -25,18 +31,20 @@ namespace HuwWenCapture.Controls {
 
             // No., Score, Actions, Chinese, English
 
-            Column colID = new Column("id", "号") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
-            Column colMS = new Column("score", "分数") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
-            Column colZH = new Column("zh-OCR", "中文 (OCR/文字识别)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
-            Column colEN = new Column("en-Translation", "英文 (Translation/翻译)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
+            Column colID = new("id", "号") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
+            Column colMS = new("score", "分数") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, Editable = false, Align = ColumnAlign.Center };
+            Column colZH = new("zh-OCR", "中文 (OCR/文字识别)") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
+            Column colEN = new("en-Translation", "英文 (Translation/翻译) [ML]") { Wrap = true, LineBreak = true, ColBreak = true, ReadOnly = true, };
 
             colMS.DisplayFormat = "0%";
 
-            Column colSS = new Column("screenshot", "操作") {
+            Column colSS = new("screenshot", "操作") {
                 Render = (value, record, rowIndex) => {
-                    CellButton button = new CellButton($"{rowIndex}") { Text = "查看" };  // view
-                    button.Fore = Color.Blue;
-                    return button;
+                    CellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };   // view screenshot
+                    CellButton button2 = new($"{rowIndex}") { Text = "查看", Id = "DICT" };    // look up dictionary
+                    button1.Fore = Color.Blue;
+                    button2.Fore = Color.Blue;
+                    return new CellButton[] { button1, button2 };
                 },
                 Align = ColumnAlign.Center,
             };
@@ -51,19 +59,39 @@ namespace HuwWenCapture.Controls {
             table1.Columns.Add(colZH);   // chinese
             table1.Columns.Add(colEN);   // english
 
-            table1.CellButtonClick += Table1_CellButtonClick;
+            table1.CellButtonClick += OnTableCellButtonClick;
         }
 
-        private void Table1_CellButtonClick(object sender, TableButtonEventArgs e) {
-            DataRow dr = e.Record as DataRow;
-            string filepath = (string)dr.ItemArray[4];
-            if (filepath == null) return;
+        private void OnTableCellButtonClick(object sender, TableButtonEventArgs e) {
+            DataRow dr = (DataRow)e.Record!;
+            if (e.Btn.Id == "IMAGE") {
+                string filepath = (string)dr.ItemArray[4]!;
+                if (filepath == null) return;
 
-            try {
-                Process.Start(new ProcessStartInfo(filepath) { UseShellExecute = true });
-            } catch (Exception ex) {
-                Debug.WriteLine(ex.Message);
+                try {
+                    Process.Start(new ProcessStartInfo(filepath) { UseShellExecute = true });
+                } catch (Exception ex) {
+                    Debug.WriteLine(ex.Message);
+                }
+                return;
             }
+
+            // Dictionary
+            string text = (string)dr.ItemArray[2]!;
+
+            if (text == null) return;
+            string[] segments = [.. ChineseDictionary.Segmenter.Cut(text, cutAll: true)];
+
+            List<DictionaryEntry> data = [];
+            foreach (string segment in segments) {
+                List<DictionaryEntry> entries = ChineseDictionary.Lookup(segment);
+                data.AddRange(entries);
+            }
+
+            DictionaryDialog dialog = new();
+            dialog.AddItems(data);
+            dialog.StartPosition = FormStartPosition.CenterParent;
+            dialog.Show(FindForm());
         }
 
         public void AddEntry(float score, string zh, string en, string path) {
@@ -73,12 +101,12 @@ namespace HuwWenCapture.Controls {
         }
 
         public void ResizeColumns(int width) {
-            table1.Columns["id"].Width = $"80";
-            table1.Columns["screenshot"].Width = $"112";
-            table1.Columns["score"].Width = $"80";
-            int colWidth = (int)((width - 272) / 2);
-            table1.Columns["zh-OCR"].Width = $"{colWidth}";
-            table1.Columns["en-Translation"].Width = $"{colWidth}";
+            table1.Columns["id"]!.Width = $"80";
+            table1.Columns["screenshot"]!.Width = $"152";
+            table1.Columns["score"]!.Width = $"80";
+            int colWidth = (int)((width - 312) / 2);
+            table1.Columns["zh-OCR"]!.Width = $"{colWidth}";
+            table1.Columns["en-Translation"]!.Width = $"{colWidth}";
         }
     }
 }

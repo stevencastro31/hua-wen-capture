@@ -27,9 +27,9 @@
             label1 = new AntdUI.Label();
             label2 = new AntdUI.Label();
             label3 = new AntdUI.Label();
-            input1 = new AntdUI.Input();
-            input2 = new AntdUI.Input();
             button1 = new AntdUI.Button();
+            buttonCaptureDirectory = new AntdUI.ButtonShadow();
+            buttonCaptureHotkey = new AntdUI.ButtonShadow();
             SuspendLayout();
             // 
             // switch1
@@ -70,30 +70,6 @@
             label3.Text = "Capture Hotkey";
             label3.TextAlign = ContentAlignment.MiddleCenter;
             // 
-            // input1
-            // 
-            input1.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            input1.Font = new Font("Microsoft YaHei", 14.25F);
-            input1.Location = new Point(240, 90);
-            input1.MaximumSize = new Size(500, 40);
-            input1.MinimumSize = new Size(200, 40);
-            input1.Name = "input1";
-            input1.Size = new Size(200, 40);
-            input1.TabIndex = 4;
-            input1.Text = "input1";
-            // 
-            // input2
-            // 
-            input2.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
-            input2.Font = new Font("Microsoft YaHei", 14.25F);
-            input2.Location = new Point(240, 155);
-            input2.MaximumSize = new Size(500, 40);
-            input2.MinimumSize = new Size(200, 40);
-            input2.Name = "input2";
-            input2.Size = new Size(200, 40);
-            input2.TabIndex = 5;
-            input2.Text = "input2";
-            // 
             // button1
             // 
             button1.Font = new Font("Microsoft YaHei", 14.25F);
@@ -104,17 +80,43 @@
             button1.Text = "Save";
             button1.Click += OnSaveButtonClick;
             // 
+            // buttonShadow1
+            // 
+            buttonCaptureDirectory.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            buttonCaptureDirectory.Font = new Font("Microsoft YaHei", 14.25F);
+            buttonCaptureDirectory.Location = new Point(240, 155);
+            buttonCaptureDirectory.MaximumSize = new Size(500, 40);
+            buttonCaptureDirectory.MinimumSize = new Size(200, 40);
+            buttonCaptureDirectory.Name = "buttonShadow1";
+            buttonCaptureDirectory.Size = new Size(200, 40);
+            buttonCaptureDirectory.TabIndex = 7;
+            buttonCaptureDirectory.Text = "buttonShadow1";
+            buttonCaptureDirectory.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // buttonShadow2
+            // 
+            buttonCaptureHotkey.Anchor = AnchorStyles.Top | AnchorStyles.Left | AnchorStyles.Right;
+            buttonCaptureHotkey.Font = new Font("Microsoft YaHei", 14.25F);
+            buttonCaptureHotkey.Location = new Point(240, 90);
+            buttonCaptureHotkey.MaximumSize = new Size(500, 40);
+            buttonCaptureHotkey.MinimumSize = new Size(200, 40);
+            buttonCaptureHotkey.Name = "buttonShadow2";
+            buttonCaptureHotkey.Size = new Size(200, 40);
+            buttonCaptureHotkey.TabIndex = 8;
+            buttonCaptureHotkey.Text = "buttonShadow2";
+            buttonCaptureHotkey.TextAlign = ContentAlignment.MiddleLeft;
+            // 
             // SettingDisplay
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
+            Controls.Add(buttonCaptureHotkey);
+            Controls.Add(buttonCaptureDirectory);
             Controls.Add(button1);
-            Controls.Add(input1);
             Controls.Add(switch1);
             Controls.Add(label2);
             Controls.Add(label3);
             Controls.Add(label1);
-            Controls.Add(input2);
             Name = "SettingDisplay";
             Size = new Size(465, 285);
             ResumeLayout(false);
@@ -126,8 +128,8 @@
         private AntdUI.Label label1;
         private AntdUI.Label label2;
         private AntdUI.Label label3;
-        private AntdUI.Input input1;
-        private AntdUI.Input input2;
         private AntdUI.Button button1;
+        private AntdUI.ButtonShadow buttonCaptureDirectory;
+        private AntdUI.ButtonShadow buttonCaptureHotkey;
     }
 }

@@ -6,8 +6,8 @@ using System.Text.RegularExpressions;
 namespace HuwWenCapture.Objects {
     internal static class SettingsManager {
         public static bool StartMinimized { get; set; }
-        private static string _captureHotkey;
-        private static string _captureDirectory;
+        private static string? _captureHotkey;
+        private static string? _captureDirectory;
 
         public static string CaptureHotkey { 
             get => _captureHotkey; 
@@ -38,15 +38,14 @@ namespace HuwWenCapture.Objects {
         }
 
         private static string ResolveCapturePath() {
-            string picturesPath;
+            string capturePath;
             if (Properties.Settings.Default.CaptureDirectory == "SPECIAL_PICTURES")
-                picturesPath = Environment.GetFolderPath(Environment.SpecialFolder.MyPictures);
+                capturePath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "HuaWenCapture");
             else
-                picturesPath = Properties.Settings.Default.CaptureDirectory;
-            string capturePath = Path.Combine(picturesPath, "HuaWenCapture");
+                capturePath = Properties.Settings.Default.CaptureDirectory;
             if (!Directory.Exists(capturePath))
                 Directory.CreateDirectory(capturePath);
-            return Path.Combine(picturesPath, "HuaWenCapture");
+            return capturePath;
         }
 
         public static void Save() {
