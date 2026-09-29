@@ -105,7 +105,16 @@ namespace HuaWenCapture.Controls {
         }
 
         private void OnTableCellButtonClick(object sender, TableButtonEventArgs e) {
-            // do some stuff
+            if (e.Btn.Id == "IMAGE") {
+                DataRow dataRow = (DataRow)e.Record!;
+                string filepath = (string)dataRow.ItemArray[2]!;
+                Process.Start(new ProcessStartInfo() { FileName = filepath, UseShellExecute = true  });
+                return;
+            }
+
+            if (e.Btn.Id == "DICT") {
+                // DICT DIALOG
+            }
         }
 
         private void OnParentSizeChanged(object? sender, EventArgs e) {
