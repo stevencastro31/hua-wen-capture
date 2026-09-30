@@ -48,7 +48,7 @@
             tabs1.Pages.Add(tabPage1);
             tabs1.Pages.Add(tabPage2);
             tabs1.Pages.Add(tabPage3);
-            tabs1.Size = new Size(784, 454);
+            tabs1.Size = new Size(984, 461);
             tabs1.Style = styleLine1;
             tabs1.TabIndex = 1;
             tabs1.Text = "tabs1";
@@ -59,7 +59,7 @@
             tabPage1.Font = new Font("Microsoft YaHei UI", 14F);
             tabPage1.Location = new Point(0, 38);
             tabPage1.Name = "tabPage1";
-            tabPage1.Size = new Size(784, 416);
+            tabPage1.Size = new Size(984, 423);
             tabPage1.TabIndex = 0;
             tabPage1.Text = "翻译 (Translations)";
             // 
@@ -69,7 +69,7 @@
             translationTable1.Location = new Point(0, 0);
             translationTable1.Margin = new Padding(6, 5, 6, 5);
             translationTable1.Name = "translationTable1";
-            translationTable1.Size = new Size(784, 416);
+            translationTable1.Size = new Size(984, 423);
             translationTable1.TabIndex = 0;
             // 
             // tabPage2
@@ -104,7 +104,7 @@
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(784, 454);
+            ClientSize = new Size(984, 461);
             Controls.Add(tabs1);
             Dark = true;
             Font = new Font("Microsoft YaHei UI", 9F, FontStyle.Regular, GraphicsUnit.Point, 0);

@@ -1,4 +1,6 @@
-﻿using System;
+﻿using AntdUI;
+using HuaWenCapture.Objects;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -6,8 +8,7 @@ using System.Diagnostics;
 using System.Drawing;
 using System.Text;
 using System.Windows.Forms;
-using AntdUI;
-using HuaWenCapture.Objects;
+using static System.Net.WebRequestMethods;
 
 namespace HuaWenCapture.Controls {
     public partial class TranslationTable : UserControl {
@@ -25,27 +26,29 @@ namespace HuaWenCapture.Controls {
             Editable = false,
         };
         Column colAction = new("action", "操作") {
-            Width = "144",
+            Width = "256",
             ColAlign = ColumnAlign.Center, Align = ColumnAlign.Center,
             Wrap = true, LineBreak = true, ColBreak = true,
             Editable = false,
             Render = (value, record, rowIndex) => {
-                CellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };   // view screenshot
-                CellButton button2 = new($"{rowIndex}") { Text = "查看", Id = "DICT" };    // look up dictionary
+                CellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };      // view screenshot
+                CellButton button2 = new($"{rowIndex}") { Text = "查字典", Id = "DICT" };       // look up dictionary
+                CellButton button3 = new($"{rowIndex}") { Text = "谷歌翻译", Id = "GOOGLE" };     // look up google translate on ocr text
                 button1.Fore = Color.Blue;
                 button2.Fore = Color.Blue;
-                return new CellButton[] { button1, button2 };
+                button3.Fore = Color.Blue;
+                return new CellButton[] { button1, button2, button3 };
             },
         };
         Column colZh = new("zh", "中文 (OCR/文字识别)") {
-            Width = "256", 
+            Width = "308", 
             MinWidth = "128",
             ColAlign = ColumnAlign.Center, Align = ColumnAlign.Left,
             Wrap = true, LineBreak = true, ColBreak = true,
             ReadOnly = true
         };
         Column colEn = new("en", "英文 (Translation/翻译)") {
-            Width = "256", 
+            Width = "308", 
             MinWidth = "128",
             ColAlign = ColumnAlign.Center, Align = ColumnAlign.Left,
             Wrap = true, LineBreak = true, ColBreak = true,
@@ -58,10 +61,13 @@ namespace HuaWenCapture.Controls {
         public TranslationTable() {
             InitializeComponent();
             SetupTableColumns();
+            table1.EmptyText = "Press: Alt + Shift + Q to Capture";
         }
 
         public void AddEntry(float score, string zh, string en, string screenshot) {
             _data.Rows.Add(_count++, score, screenshot, zh, en);
+            RefreshData();
+            table1.ScrollToEnd();
         }
 
         public bool RemoveEntry(int id) {
@@ -69,6 +75,10 @@ namespace HuaWenCapture.Controls {
             if (target == null) return false;
             _data.Rows.Remove(target);
             return true;
+        }
+
+        public void RefreshData() {
+            table1.DataSource = _data;
         }
 
         private void SetupTableColumns() {
@@ -85,19 +95,12 @@ namespace HuaWenCapture.Controls {
         }
 
         private void AdjustColumnWidth() {
-            int width = (FindForm()!.Width - (64 + 80 + 144)) / 2;
+            int width = (FindForm()!.Width - (64 + 80 + 240)) / 2;
             colZh.Width = $"{width}";
             colEn.Width = $"{width}";
         }
 
         private void OnTranslationTableLoad(object sender, EventArgs e) {
-            AddEntry(0.9F, "我来了来了！", "I'm HERE!", "test");
-            AddEntry(0.45F, "我来了来了！", "I'm HERE!", "test");
-            AddEntry(0.9F, "我来了来了！", "I'm HERE!", "test");
-            AddEntry(0.9F, "我来了来了！", "I'm HERE!", "test");
-            AddEntry(0.9F, "我来了来了！", "I'm HERasdE!", "test");
-            RemoveEntry(1);
-
             table1.DataSource = _data;
             AdjustColumnWidth();
             this.Parent!.SizeChanged += OnParentSizeChanged;
@@ -105,8 +108,8 @@ namespace HuaWenCapture.Controls {
         }
 
         private void OnTableCellButtonClick(object sender, TableButtonEventArgs e) {
+            DataRow dataRow = (DataRow)e.Record!;
             if (e.Btn.Id == "IMAGE") {
-                DataRow dataRow = (DataRow)e.Record!;
                 string filepath = (string)dataRow.ItemArray[2]!;
                 Process.Start(new ProcessStartInfo() { FileName = filepath, UseShellExecute = true  });
                 return;
@@ -114,6 +117,17 @@ namespace HuaWenCapture.Controls {
 
             if (e.Btn.Id == "DICT") {
                 // DICT DIALOG
+            }
+
+            if (e.Btn.Id == "GOOGLE") {
+                string zh = (string)dataRow.ItemArray[3]!;
+                if (zh == null || zh.Length < 1) {
+                    Notification.error(FindForm()!, "Invalid Chinese Text", "", TAlignFrom.BR, autoClose: 3);
+                } else {
+                    string url = "https://translate.google.com/?sl=zh-CN&tl=en&text=" + dataRow.ItemArray[3];
+                    Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
+                }
+                return;
             }
         }
 
