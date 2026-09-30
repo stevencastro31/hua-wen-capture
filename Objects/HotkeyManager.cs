@@ -1,13 +1,9 @@
 ﻿using HuaWenCapture.Types;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Runtime.InteropServices;
-using System.Text;
-using static System.Windows.Forms.VisualStyles.VisualStyleElement;
 
 namespace HuaWenCapture.Objects {
-    internal static class HotkeyManager{
+    internal static class HotkeyManager {
         private static readonly Dictionary<string, HotkeyEntry> Entries = new();
         private static HotkeyWindow? _window;            // window where hotkeys are sent
         private static int _nextId = 0x1000;            // ids used for registering unique hotkeys

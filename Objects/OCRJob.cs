@@ -1,9 +1,4 @@
-﻿using EasyOcrSharp.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HuaWenCapture.Objects {
+﻿namespace HuaWenCapture.Objects {
     internal class OCRJob {
         public byte[] Image { get; init; }
         public Action<OCRJobResult> OnResult { get; init; }

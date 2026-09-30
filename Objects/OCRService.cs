@@ -1,13 +1,9 @@
 ﻿using EasyImageSharp;
 using EasyImageSharp.PixelFormats;
 using EasyImageSharp.Processing;
-using EasyOcrSharp;
 using EasyOcrSharp.Models;
 using EasyOcrSharp.Services;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
-using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Channels;
 using Image = EasyImageSharp.Image;
@@ -33,10 +29,10 @@ namespace HuaWenCapture.Objects {
                         job.OnResult(result);
                         //Debug.WriteLine($"Managed: {GC.GetTotalMemory(true) / 1024 / 1024} MB, " + $"Process: {Process.GetCurrentProcess().WorkingSet64 / 1024 / 1024} MB");
                     } catch (Exception ex) {
-                        try { 
-                            job.OnError?.Invoke(ex); 
-                        } catch (Exception ex2) { 
-                            Debug.WriteLine(ex2); 
+                        try {
+                            job.OnError?.Invoke(ex);
+                        } catch (Exception ex2) {
+                            Debug.WriteLine(ex2);
                         }
                     }
                 }

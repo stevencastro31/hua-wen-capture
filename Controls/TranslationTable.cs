@@ -1,34 +1,37 @@
 ﻿using AntdUI;
 using HuaWenCapture.Objects;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Diagnostics;
-using System.Drawing;
-using System.Text;
-using System.Windows.Forms;
-using static System.Net.WebRequestMethods;
 
 namespace HuaWenCapture.Controls {
     public partial class TranslationTable : UserControl {
         Column colId = new("id", "号") {
-            Width = "64", 
-            ColAlign = ColumnAlign.Center, Align = ColumnAlign.Center,
-            Wrap = true, LineBreak = true, ColBreak = true,
+            Width = "64",
+            ColAlign = ColumnAlign.Center,
+            Align = ColumnAlign.Center,
+            Wrap = true,
+            LineBreak = true,
+            ColBreak = true,
             Editable = false,
         };
         Column colScore = new("score", "分数") {
             Width = "80",
-            ColAlign = ColumnAlign.Center, Align = ColumnAlign.Center,
+            ColAlign = ColumnAlign.Center,
+            Align = ColumnAlign.Center,
             DisplayFormat = "0%",
-            Wrap = true, LineBreak = true, ColBreak = true,
+            Wrap = true,
+            LineBreak = true,
+            ColBreak = true,
             Editable = false,
         };
         Column colAction = new("action", "操作") {
             Width = "256",
-            ColAlign = ColumnAlign.Center, Align = ColumnAlign.Center,
-            Wrap = true, LineBreak = true, ColBreak = true,
+            ColAlign = ColumnAlign.Center,
+            Align = ColumnAlign.Center,
+            Wrap = true,
+            LineBreak = true,
+            ColBreak = true,
             Editable = false,
             Render = (value, record, rowIndex) => {
                 CellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };      // view screenshot
@@ -41,22 +44,31 @@ namespace HuaWenCapture.Controls {
             },
         };
         Column colZh = new("zh", "中文 (OCR/文字识别)") {
-            Width = "308", 
+            Width = "308",
             MinWidth = "128",
-            ColAlign = ColumnAlign.Center, Align = ColumnAlign.Left,
-            Wrap = true, LineBreak = true, ColBreak = true,
+            ColAlign = ColumnAlign.Center,
+            Align = ColumnAlign.Left,
+            Wrap = true,
+            LineBreak = true,
+            ColBreak = true,
             ReadOnly = true
         };
         Column colEn = new("en", "英文 (Translation/翻译)") {
-            Width = "308", 
+            Width = "308",
             MinWidth = "128",
-            ColAlign = ColumnAlign.Center, Align = ColumnAlign.Left,
-            Wrap = true, LineBreak = true, ColBreak = true,
+            ColAlign = ColumnAlign.Center,
+            Align = ColumnAlign.Left,
+            Wrap = true,
+            LineBreak = true,
+            ColBreak = true,
             ReadOnly = true
         };
 
         private DataTable _data = new();
         private int _count = 0;
+
+        [DesignerSerializationVisibility(DesignerSerializationVisibility.Hidden)]
+        public Action<string>? OnDictionaryLookUp { get; set; }
 
         public TranslationTable() {
             InitializeComponent();
@@ -111,12 +123,18 @@ namespace HuaWenCapture.Controls {
             DataRow dataRow = (DataRow)e.Record!;
             if (e.Btn.Id == "IMAGE") {
                 string filepath = (string)dataRow.ItemArray[2]!;
-                Process.Start(new ProcessStartInfo() { FileName = filepath, UseShellExecute = true  });
+                Process.Start(new ProcessStartInfo() { FileName = filepath, UseShellExecute = true });
                 return;
             }
 
             if (e.Btn.Id == "DICT") {
-                // DICT DIALOG
+                string zh = (string)dataRow.ItemArray[3]!;
+                if (zh == null || zh.Length < 1) {
+                    Notification.error(FindForm()!, "Invalid Chinese Text", "", TAlignFrom.BR, autoClose: 3);
+                } else {
+                    OnDictionaryLookUp?.Invoke(zh);
+                }
+                return;
             }
 
             if (e.Btn.Id == "GOOGLE") {
@@ -134,6 +152,5 @@ namespace HuaWenCapture.Controls {
         private void OnParentSizeChanged(object? sender, EventArgs e) {
             AdjustColumnWidth();
         }
-
     }
 }

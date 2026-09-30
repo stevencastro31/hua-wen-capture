@@ -14,7 +14,7 @@ namespace HuaWenCapture.Objects {
         public bool Equals(Gesture? other) {
             return other != null && other.Key == this.Key && other.Modifiers == this.Modifiers;
         }
-        
+
         public override bool Equals(object? obj) { return Equals(obj as Gesture); }
 
         public override int GetHashCode() { return ((int)Key * 397) ^ (int)Modifiers; }

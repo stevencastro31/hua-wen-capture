@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace HuaWenCapture.Objects {
+﻿namespace HuaWenCapture.Objects {
     // a window handle for the application to receive messages
     internal class HotkeyWindow : NativeWindow {
         private const int WM_HOTKEY = 0x0312;
