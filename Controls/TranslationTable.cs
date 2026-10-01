@@ -73,7 +73,11 @@ namespace HuaWenCapture.Controls {
         public TranslationTable() {
             InitializeComponent();
             SetupTableColumns();
-            table1.EmptyText = "Press: Alt + Shift + Q to Capture";
+            UpdateEmptyText();
+        }
+
+        public void UpdateEmptyText() {
+            table1.EmptyText = $"Press: {ConfigManager.GetCaptureHotkey().ToString()} to Capture";
         }
 
         public void AddEntry(float score, string zh, string en, string screenshot) {

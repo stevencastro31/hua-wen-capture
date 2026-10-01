@@ -20,7 +20,7 @@ namespace HuaWenCapture.Objects {
         public override int GetHashCode() { return ((int)Key * 397) ^ (int)Modifiers; }
 
         public override string ToString() {
-            List<string> parts = new();
+            List<string> parts = [];
             if ((this.Modifiers & Mod.Control) != 0) parts.Add("Ctrl");
             if ((this.Modifiers & Mod.Alt) != 0) parts.Add("Alt");
             if ((this.Modifiers & Mod.Shift) != 0) parts.Add("Shift");
