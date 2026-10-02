@@ -41,6 +41,8 @@
             dictionaryTable1 = new HuaWenCapture.Controls.DictionaryTable();
             input1 = new AntdUI.Input();
             notifyIcon1 = new NotifyIcon(components);
+            label4 = new AntdUI.Label();
+            switch2 = new AntdUI.Switch();
             tabs1.SuspendLayout();
             tabPage3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -84,15 +86,18 @@
             tableLayoutPanel2.ColumnCount = 2;
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Absolute, 200F));
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Controls.Add(label3, 0, 2);
-            tableLayoutPanel2.Controls.Add(label1, 0, 0);
-            tableLayoutPanel2.Controls.Add(label2, 0, 1);
-            tableLayoutPanel2.Controls.Add(switch1, 1, 0);
-            tableLayoutPanel2.Controls.Add(buttonShadow1, 1, 1);
-            tableLayoutPanel2.Controls.Add(buttonShadow2, 1, 2);
+            tableLayoutPanel2.Controls.Add(switch2, 1, 0);
+            tableLayoutPanel2.Controls.Add(label4, 0, 0);
+            tableLayoutPanel2.Controls.Add(label3, 0, 3);
+            tableLayoutPanel2.Controls.Add(label1, 0, 1);
+            tableLayoutPanel2.Controls.Add(label2, 0, 2);
+            tableLayoutPanel2.Controls.Add(switch1, 1, 1);
+            tableLayoutPanel2.Controls.Add(buttonShadow1, 1, 2);
+            tableLayoutPanel2.Controls.Add(buttonShadow2, 1, 3);
             tableLayoutPanel2.Location = new Point(12, 19);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 4;
+            tableLayoutPanel2.RowCount = 5;
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
@@ -103,7 +108,7 @@
             // label3
             // 
             label3.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
-            label3.Location = new Point(3, 83);
+            label3.Location = new Point(3, 123);
             label3.Name = "label3";
             label3.Size = new Size(194, 34);
             label3.TabIndex = 3;
@@ -114,7 +119,7 @@
             // 
             label1.Dock = DockStyle.Fill;
             label1.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
-            label1.Location = new Point(3, 3);
+            label1.Location = new Point(3, 43);
             label1.Name = "label1";
             label1.Size = new Size(194, 34);
             label1.TabIndex = 0;
@@ -124,7 +129,7 @@
             // label2
             // 
             label2.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
-            label2.Location = new Point(3, 43);
+            label2.Location = new Point(3, 83);
             label2.Name = "label2";
             label2.Size = new Size(194, 34);
             label2.TabIndex = 2;
@@ -134,7 +139,7 @@
             // switch1
             // 
             switch1.Dock = DockStyle.Left;
-            switch1.Location = new Point(203, 3);
+            switch1.Location = new Point(203, 43);
             switch1.Name = "switch1";
             switch1.Size = new Size(75, 34);
             switch1.TabIndex = 4;
@@ -143,7 +148,7 @@
             // buttonShadow1
             // 
             buttonShadow1.Dock = DockStyle.Fill;
-            buttonShadow1.Location = new Point(203, 43);
+            buttonShadow1.Location = new Point(203, 83);
             buttonShadow1.MinimumSize = new Size(400, 0);
             buttonShadow1.Name = "buttonShadow1";
             buttonShadow1.Size = new Size(754, 34);
@@ -154,7 +159,7 @@
             // buttonShadow2
             // 
             buttonShadow2.Dock = DockStyle.Fill;
-            buttonShadow2.Location = new Point(203, 83);
+            buttonShadow2.Location = new Point(203, 123);
             buttonShadow2.MinimumSize = new Size(400, 0);
             buttonShadow2.Name = "buttonShadow2";
             buttonShadow2.Size = new Size(754, 34);
@@ -228,6 +233,26 @@
             notifyIcon1.Text = "notifyIcon1";
             notifyIcon1.Visible = true;
             // 
+            // label4
+            // 
+            label4.Dock = DockStyle.Fill;
+            label4.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
+            label4.Location = new Point(3, 3);
+            label4.Name = "label4";
+            label4.Size = new Size(194, 34);
+            label4.TabIndex = 7;
+            label4.Text = "Launch on Startup";
+            label4.TextAlign = ContentAlignment.MiddleRight;
+            // 
+            // switch2
+            // 
+            switch2.Dock = DockStyle.Left;
+            switch2.Location = new Point(203, 3);
+            switch2.Name = "switch2";
+            switch2.Size = new Size(75, 34);
+            switch2.TabIndex = 8;
+            switch2.Text = "switch2";
+            // 
             // MainForm
             // 
             AutoScaleDimensions = new SizeF(7F, 17F);
@@ -265,5 +290,7 @@
         private AntdUI.Switch switch1;
         private AntdUI.ButtonShadow buttonShadow1;
         private AntdUI.ButtonShadow buttonShadow2;
+        private AntdUI.Switch switch2;
+        private AntdUI.Label label4;
     }
 }

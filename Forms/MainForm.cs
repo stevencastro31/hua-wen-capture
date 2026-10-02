@@ -23,6 +23,7 @@ namespace HuaWenCapture {
             SetupSettingsUI();
         }
 
+
         // form methods
         private void BeginScreenCapture() {
             using ScreenshotForm ssf = new();
@@ -67,6 +68,7 @@ namespace HuaWenCapture {
 
         private void SetupNotifyIcon() {
             notifyIcon1.Icon = SystemIcons.WinLogo;
+            notifyIcon1.Text = "华文 Capture";
             notifyIcon1.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
             
             string baseIconDirectory = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");    // from: https://icon-icons.com
@@ -80,13 +82,16 @@ namespace HuaWenCapture {
 
         private void SetupSettingsUI() {
             switch1.Checked = ConfigManager.GetIsStartMinimized();
+            switch2.Checked = ConfigManager.GetIsStartOnLaunch();
             buttonShadow1.Text= ConfigManager.GetCapturePath();
             buttonShadow2.Text= ConfigManager.GetCaptureHotkey().ToString();
 
-            switch1.CheckedChanged += OnStartMinimizedSettingButtonClick;
+            switch1.CheckedChanged += OnStartMinimizedSettingSwitchClick;
+            switch2.CheckedChanged += OnStartOnLaunchSettingSwitchClick;
             buttonShadow1.Click += OnCapturePathSettingButtonClick;
             buttonShadow2.Click += OnCaptureHotkeySettingButtonClick;
         }
+
 
         // form events
         private void OnSearchTextChanged(object? sender, EventArgs e) {
@@ -135,6 +140,7 @@ namespace HuaWenCapture {
         private void OnNotifyIconMouseDoubleClick(object? sender, EventArgs e) {
             this.WindowState = FormWindowState.Normal;
             this.Show();
+            this.BringToFront();
         }
 
         private void OnContextMenuCaptureClick(object? sender, EventArgs e) {
@@ -146,8 +152,12 @@ namespace HuaWenCapture {
         }
 
         // setting events
-        private void OnStartMinimizedSettingButtonClick(object sender, AntdUI.BoolEventArgs e) {
+        private void OnStartMinimizedSettingSwitchClick(object sender, AntdUI.BoolEventArgs e) {
             ConfigManager.SetIsStartMinimized(e.Value);
+        }
+
+        private void OnStartOnLaunchSettingSwitchClick(object sender, BoolEventArgs e) {
+            ConfigManager.SetIsStartOnLaunch(e.Value);
         }
 
         private void OnCapturePathSettingButtonClick(object? sender, EventArgs e) {

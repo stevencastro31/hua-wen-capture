@@ -3,10 +3,14 @@ using HuaWenCapture.Types;
 using System.Diagnostics;
 using System.Text.Json;
 
+using Microsoft.Win32;
+
+
 namespace HuaWenCapture.Objects {
     internal static class ConfigManager {
         private static readonly string CONFIG_PATH = Path.Combine(AppContext.BaseDirectory, "config.json");
 
+        private static readonly bool DEFAULT_START_LAUNCH = false;
         private static readonly bool DEFAULT_START_MINIMIZED = false;
         private static readonly string DEFAULT_CAPTURE_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.MyPictures), "HuaWenCapture");
         private static readonly Gesture DEFAULT_CAPTURE_HOTKEY = new(Keys.Q, Mod.Alt | Mod.Shift);
@@ -17,9 +21,15 @@ namespace HuaWenCapture.Objects {
             _config = LoadConfig();
         }
 
+        public static bool GetIsStartOnLaunch() => _config.IsStartOnLaunch;
         public static bool GetIsStartMinimized() => _config.IsStartMinimized;
         public static string GetCapturePath() => _config.CapturePath;
         public static Gesture GetCaptureHotkey() => _config.CaptureHotkey;
+
+        public static void SetIsStartOnLaunch(bool launch) {
+            _config.IsStartOnLaunch = launch;
+            SetStartup();
+        }
 
         public static void SetIsStartMinimized(bool minimized) {
             _config.IsStartMinimized = minimized;
@@ -58,9 +68,18 @@ namespace HuaWenCapture.Objects {
         }
 
         private static Config CreateDefaultConfig() {
-            Config config = new(DEFAULT_START_MINIMIZED, DEFAULT_CAPTURE_PATH, DEFAULT_CAPTURE_HOTKEY);
+            Config config = new(DEFAULT_START_LAUNCH, DEFAULT_START_MINIMIZED, DEFAULT_CAPTURE_PATH, DEFAULT_CAPTURE_HOTKEY);
             SaveConfig(config);
             return config;
         }
+
+        private static void SetStartup() {
+            RegistryKey registry = Registry.CurrentUser.OpenSubKey("SOFTWARE\\Microsoft\\Windows\\CurrentVersion\\Run", true)!;
+            if (_config.IsStartOnLaunch)
+                registry.SetValue(Application.ProductName, Application.ExecutablePath);
+            else
+                registry.DeleteValue(Application.ProductName!, false);
+        }
+
     }
 }
