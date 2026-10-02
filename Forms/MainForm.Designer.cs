@@ -28,6 +28,8 @@
             tabs1 = new AntdUI.Tabs();
             tabPage3 = new AntdUI.TabPage();
             tableLayoutPanel2 = new TableLayoutPanel();
+            switch2 = new AntdUI.Switch();
+            label4 = new AntdUI.Label();
             label3 = new AntdUI.Label();
             label1 = new AntdUI.Label();
             label2 = new AntdUI.Label();
@@ -41,8 +43,6 @@
             dictionaryTable1 = new HuaWenCapture.Controls.DictionaryTable();
             input1 = new AntdUI.Input();
             notifyIcon1 = new NotifyIcon(components);
-            label4 = new AntdUI.Label();
-            switch2 = new AntdUI.Switch();
             tabs1.SuspendLayout();
             tabPage3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
@@ -54,8 +54,8 @@
             // tabs1
             // 
             tabs1.BackColor = Color.White;
-            tabs1.Controls.Add(tabPage3);
             tabs1.Controls.Add(tabPage1);
+            tabs1.Controls.Add(tabPage3);
             tabs1.Controls.Add(tabPage2);
             tabs1.Dock = DockStyle.Fill;
             tabs1.Font = new Font("Microsoft YaHei UI", 14F);
@@ -64,7 +64,6 @@
             tabs1.Pages.Add(tabPage1);
             tabs1.Pages.Add(tabPage2);
             tabs1.Pages.Add(tabPage3);
-            tabs1.SelectedIndex = 2;
             tabs1.Size = new Size(984, 461);
             tabs1.Style = styleLine1;
             tabs1.TabIndex = 0;
@@ -74,7 +73,7 @@
             // 
             tabPage3.Controls.Add(tableLayoutPanel2);
             tabPage3.Font = new Font("Microsoft YaHei UI", 14F);
-            tabPage3.Location = new Point(0, 38);
+            tabPage3.Location = new Point(-1968, -846);
             tabPage3.Name = "tabPage3";
             tabPage3.Size = new Size(984, 423);
             tabPage3.TabIndex = 2;
@@ -104,6 +103,26 @@
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Size = new Size(960, 214);
             tableLayoutPanel2.TabIndex = 1;
+            // 
+            // switch2
+            // 
+            switch2.Dock = DockStyle.Left;
+            switch2.Location = new Point(203, 3);
+            switch2.Name = "switch2";
+            switch2.Size = new Size(75, 34);
+            switch2.TabIndex = 8;
+            switch2.Text = "switch2";
+            // 
+            // label4
+            // 
+            label4.Dock = DockStyle.Fill;
+            label4.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
+            label4.Location = new Point(3, 3);
+            label4.Name = "label4";
+            label4.Size = new Size(194, 34);
+            label4.TabIndex = 7;
+            label4.Text = "Launch on Startup";
+            label4.TextAlign = ContentAlignment.MiddleRight;
             // 
             // label3
             // 
@@ -171,7 +190,7 @@
             // 
             tabPage1.Controls.Add(translationTable1);
             tabPage1.Font = new Font("Microsoft YaHei UI", 14F);
-            tabPage1.Location = new Point(-1968, -846);
+            tabPage1.Location = new Point(0, 38);
             tabPage1.Name = "tabPage1";
             tabPage1.Size = new Size(984, 423);
             tabPage1.TabIndex = 0;
@@ -232,26 +251,6 @@
             // 
             notifyIcon1.Text = "notifyIcon1";
             notifyIcon1.Visible = true;
-            // 
-            // label4
-            // 
-            label4.Dock = DockStyle.Fill;
-            label4.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
-            label4.Location = new Point(3, 3);
-            label4.Name = "label4";
-            label4.Size = new Size(194, 34);
-            label4.TabIndex = 7;
-            label4.Text = "Launch on Startup";
-            label4.TextAlign = ContentAlignment.MiddleRight;
-            // 
-            // switch2
-            // 
-            switch2.Dock = DockStyle.Left;
-            switch2.Location = new Point(203, 3);
-            switch2.Name = "switch2";
-            switch2.Size = new Size(75, 34);
-            switch2.TabIndex = 8;
-            switch2.Text = "switch2";
             // 
             // MainForm
             // 

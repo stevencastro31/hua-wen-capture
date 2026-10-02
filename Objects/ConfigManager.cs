@@ -1,10 +1,6 @@
-﻿using Google.Protobuf.WellKnownTypes;
-using HuaWenCapture.Types;
-using System.Diagnostics;
-using System.Text.Json;
-
+﻿using HuaWenCapture.Types;
 using Microsoft.Win32;
-
+using System.Text.Json;
 
 namespace HuaWenCapture.Objects {
     internal static class ConfigManager {
@@ -40,7 +36,7 @@ namespace HuaWenCapture.Objects {
             if (!Directory.Exists(fullPath))
                 Directory.CreateDirectory(fullPath);
             _config.CapturePath = fullPath;
-        } 
+        }
 
         public static void SetCaptureHotkey(Gesture gesture) {
             _config.CaptureHotkey = gesture;

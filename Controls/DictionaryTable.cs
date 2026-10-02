@@ -33,6 +33,7 @@ namespace HuaWenCapture.Controls {
             InitializeComponent();
             SetupTableColumns();
             table1.EmptyText = "Enter text to search definitions";
+            table1.EditMode = TEditMode.DoubleClick;
         }
 
         public void AddRow(string word, string pinyin, string definition) {

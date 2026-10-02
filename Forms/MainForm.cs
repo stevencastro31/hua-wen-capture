@@ -3,9 +3,7 @@ using HuaWenCapture.Forms;
 using HuaWenCapture.Objects;
 using HuaWenCapture.Types;
 using System.Diagnostics;
-using System.Drawing;
 using System.Drawing.Imaging;
-using System.Runtime.CompilerServices;
 using DictionaryEntry = HuaWenCapture.Objects.DefinitionEntry;
 using FolderBrowserDialog = AntdUI.FolderBrowserDialog;
 
@@ -70,7 +68,7 @@ namespace HuaWenCapture {
             notifyIcon1.Icon = SystemIcons.WinLogo;
             notifyIcon1.Text = "华文 Capture";
             notifyIcon1.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
-            
+
             string baseIconDirectory = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");    // from: https://icon-icons.com
             notifyIcon1.ContextMenuStrip.Items.Add("Capture", Image.FromFile(Path.Combine(baseIconDirectory, "icon-204560.png")));
             notifyIcon1.ContextMenuStrip.Items.Add("Exit", Image.FromFile(Path.Combine(baseIconDirectory, "icon-234165.png")));
@@ -83,8 +81,8 @@ namespace HuaWenCapture {
         private void SetupSettingsUI() {
             switch1.Checked = ConfigManager.GetIsStartMinimized();
             switch2.Checked = ConfigManager.GetIsStartOnLaunch();
-            buttonShadow1.Text= ConfigManager.GetCapturePath();
-            buttonShadow2.Text= ConfigManager.GetCaptureHotkey().ToString();
+            buttonShadow1.Text = ConfigManager.GetCapturePath();
+            buttonShadow2.Text = ConfigManager.GetCaptureHotkey().ToString();
 
             switch1.CheckedChanged += OnStartMinimizedSettingSwitchClick;
             switch2.CheckedChanged += OnStartOnLaunchSettingSwitchClick;
@@ -181,8 +179,7 @@ namespace HuaWenCapture {
                 if (result == RegisterResult.AlreadyInUse) {
                     buttonShadow2.Text = ConfigManager.GetCaptureHotkey().ToString();
                     Notification.error(this, gesture.ToString() + " (This hotkey is already in use).", "", TAlignFrom.BR, autoClose: 3);
-                }
-                else if (result == RegisterResult.Success) {
+                } else if (result == RegisterResult.Success) {
                     ConfigManager.SetCaptureHotkey(gesture);
                     translationTable1.UpdateEmptyText();
                 }
