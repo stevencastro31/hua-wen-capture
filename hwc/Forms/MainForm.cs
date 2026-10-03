@@ -17,8 +17,6 @@ namespace HuaWenCapture {
             HotkeyManager.Register("capture", ConfigManager.GetCaptureHotkey(), this.BeginScreenCapture);
             this.Icon = new Icon(Path.Combine(Static.BASE_ICON_DIRECTORY, "app.ico"));
 
-            translationTable1.AddEntry(0.9F, "我的天啊！", "ASdadadadsa", "asdasdasdadsdas");
-
             SetupNotifyIcon();
             SubscribeFormEvents();
             SetupSettingsUI();
