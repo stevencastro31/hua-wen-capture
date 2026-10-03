@@ -15,27 +15,32 @@ namespace HuaWenCapture.Objects {
         public static List<DictionaryEntry> Lookup(string word) {
             List<DictionaryEntry> results = [];
 
-            using SqliteConnection connection = new($"Data Source={DATABASE_PATH}");
-            connection.Open();
-            using SqliteCommand command = connection.CreateCommand();
+            try {
+                using SqliteConnection connection = new($"Data Source={DATABASE_PATH};Mode=ReadOnly");
+                connection.Open();
+                using SqliteCommand command = connection.CreateCommand();
 
-            command.CommandText = """
-                SELECT simplified, traditional, pinyin, definition
-                FROM dictionary
-                WHERE simplified = $word OR traditional = $word
-            """;
+                command.CommandText = """
+                    SELECT simplified, traditional, pinyin, definition
+                    FROM dictionary
+                    WHERE simplified = $word OR traditional = $word
+                """;
 
-            command.Parameters.AddWithValue("$word", word);
-            using SqliteDataReader reader = command.ExecuteReader();
-            while (reader.Read()) {
-                DefinitionEntry entry = new(
-                    reader.GetString(0),
-                    reader.GetString(1),
-                    reader.GetString(2),
-                    reader.GetString(3)
-                );
-                results.Add(entry);
+                command.Parameters.AddWithValue("$word", word);
+                using SqliteDataReader reader = command.ExecuteReader();
+                while (reader.Read()) {
+                    DefinitionEntry entry = new(
+                        reader.GetString(0),
+                        reader.GetString(1),
+                        reader.GetString(2),
+                        reader.GetString(3)
+                    );
+                    results.Add(entry);
+                }
+            } catch (SqliteException ex) {
+                MessageBox.Show(ex.Message);
             }
+
             return results;
         }
     }

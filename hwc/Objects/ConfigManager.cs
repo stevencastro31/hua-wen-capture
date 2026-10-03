@@ -1,10 +1,12 @@
 ﻿using HuaWenCapture.Types;
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.Text.Json;
 
 namespace HuaWenCapture.Objects {
     internal static class ConfigManager {
-        private static readonly string CONFIG_PATH = Path.Combine(AppContext.BaseDirectory, "config.json");
+        private static readonly string CONFIG_DIRECTORY_PATH = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), "HuaWenCapture");
+        private static readonly string CONFIG_PATH = Path.Combine(CONFIG_DIRECTORY_PATH, "config.json");
 
         private static readonly bool DEFAULT_START_LAUNCH = false;
         private static readonly bool DEFAULT_START_MINIMIZED = false;
@@ -14,6 +16,7 @@ namespace HuaWenCapture.Objects {
         private static Config _config;
 
         static ConfigManager() {
+            Debug.WriteLine(CONFIG_PATH);
             _config = LoadConfig();
         }
 
@@ -53,14 +56,15 @@ namespace HuaWenCapture.Objects {
         }
 
         public static void SaveConfig(Config config) {
+            if (!Directory.Exists(CONFIG_DIRECTORY_PATH))
+                Directory.CreateDirectory(CONFIG_DIRECTORY_PATH);
             string json = JsonSerializer.Serialize(config, new JsonSerializerOptions() { WriteIndented = true, IncludeFields = true });
             File.WriteAllText(CONFIG_PATH, json);
         }
 
         public static void SaveConfig() {
             if (_config == null) return;
-            string json = JsonSerializer.Serialize(_config, new JsonSerializerOptions() { WriteIndented = true, IncludeFields = true });
-            File.WriteAllText(CONFIG_PATH, json);
+            SaveConfig(_config);
         }
 
         private static Config CreateDefaultConfig() {

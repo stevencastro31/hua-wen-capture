@@ -2,6 +2,7 @@
     public class Static {
         public static readonly Font TabHeaderFont = new Font("Microsoft YaHei", 16.5F, FontStyle.Regular);
         public static readonly Font ColumnHeaderFont = new Font("Microsoft YaHei", 16, FontStyle.Bold);
-        public static readonly Font ColumnFont = new Font("Microsoft YaHei", 14);
+        public static readonly Font ColumnFont = new Font("Microsoft YaHei", 14, FontStyle.Regular);
+        public static readonly string BASE_ICON_DIRECTORY = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");
     }
 }

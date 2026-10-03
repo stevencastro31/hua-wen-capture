@@ -55,7 +55,7 @@ namespace HuaWenCapture.Objects {
             DenseTensor<long> maskTensor = new(Enumerable.Repeat(1L, srcLen).ToArray(), new[] { 1, srcLen });   // 1xn dimension tensor
 
             // encode
-            using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> encoderResults = _encoder.Run(new[] {
+            using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> encoderResults = _encoder!.Run(new[] {
                 NamedOnnxValue.CreateFromTensor("input_ids", idsTensor),
                 NamedOnnxValue.CreateFromTensor("attention_mask", maskTensor),
             });
@@ -66,7 +66,7 @@ namespace HuaWenCapture.Objects {
             for (int step = 0; step < _maxLength; step++) {
                 DenseTensor<long> decoderIds = new(generated.ToArray(), new[] { 1, generated.Count });
 
-                using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> decoderResults = _decoder.Run(new[] {
+                using IDisposableReadOnlyCollection<DisposableNamedOnnxValue> decoderResults = _decoder!.Run(new[] {
                     NamedOnnxValue.CreateFromTensor("input_ids", decoderIds),
                     NamedOnnxValue.CreateFromTensor("encoder_attention_mask", maskTensor),
                     NamedOnnxValue.CreateFromTensor("encoder_hidden_states", encoderHidden),

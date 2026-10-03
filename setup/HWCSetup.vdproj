@@ -15,13 +15,13 @@
     {
         "Entry"
         {
-        "MsmKey" = "8:_20EC017326564D979A9A5CCF5776E858"
+        "MsmKey" = "8:_C714710558184E77AC54617C9ED23415"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
         "Entry"
         {
-        "MsmKey" = "8:_307E3399ED014BC7802AF5D8DFA8AF83"
+        "MsmKey" = "8:_CD4CEBA53C60450496FA400666C20C62"
         "OwnerKey" = "8:_UNDEFINED"
         "MsmSig" = "8:_UNDEFINED"
         }
@@ -50,6 +50,14 @@
             "PrerequisitesLocation" = "2:1"
             "Url" = "8:"
             "ComponentsUrl" = "8:"
+                "Items"
+                {
+                    "{EDC2488A-8267-493A-A98E-7D9C3B36CDF3}:.NETFramework,Version=v4.7.2"
+                    {
+                    "Name" = "8:Microsoft .NET Framework 4.7.2 (x86 and x64)"
+                    "ProductCode" = "8:.NETFramework,Version=v4.7.2"
+                    }
+                }
             }
         }
         "Release"
@@ -114,9 +122,9 @@
         }
         "File"
         {
-            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_20EC017326564D979A9A5CCF5776E858"
+            "{1FB2D0AE-D3B9-43D4-B9DD-F88EC61E35DE}:_C714710558184E77AC54617C9ED23415"
             {
-            "SourcePath" = "8:..\\hua-wen-capture\\Resources\\Icons\\app.ico"
+            "SourcePath" = "8:..\\hwc\\Resources\\Icons\\app.ico"
             "TargetName" = "8:app.ico"
             "Tag" = "8:"
             "Folder" = "8:_2D7E397725C143D2BD55BD832ACAB824"
@@ -191,7 +199,7 @@
         "Name" = "8:Microsoft Visual Studio"
         "ProductName" = "8:HuaWen Capture"
         "ProductCode" = "8:{278CF623-C876-44A4-A205-0370BD41A604}"
-        "PackageCode" = "8:{866FE620-7801-4ADF-ADD4-0EBC8F428F40}"
+        "PackageCode" = "8:{B35B5A91-AC7C-4F40-AB5C-655188C84ABD}"
         "UpgradeCode" = "8:{98160EF9-009A-48FE-9A42-C3D7BF07774D}"
         "AspNetVersion" = "8:4.0.30319.0"
         "RestartWWWService" = "11:FALSE"
@@ -311,32 +319,32 @@
         }
         "Shortcut"
         {
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_642FE1A0CF514BCAB7BFA35B8B096CC6"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_B6B1F81B0E25467CBB65DA2153737197"
             {
-            "Name" = "8:HuaWen Capture"
+            "Name" = "8:HuaWenCapture"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_307E3399ED014BC7802AF5D8DFA8AF83"
+            "Target" = "8:_CD4CEBA53C60450496FA400666C20C62"
             "Folder" = "8:_69F412F5B28045CDA9A7530B6FEF65D9"
             "WorkingFolder" = "8:_2D7E397725C143D2BD55BD832ACAB824"
-            "Icon" = "8:_20EC017326564D979A9A5CCF5776E858"
+            "Icon" = "8:_C714710558184E77AC54617C9ED23415"
             "Feature" = "8:"
             }
-            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_7774ED4E8CDC47E6ADC36326D299172A"
+            "{970C0BB2-C7D0-45D7-ABFA-7EC378858BC0}:_CCB515C7C6E244129B7C7254F0D65364"
             {
-            "Name" = "8:HuaWen Capture"
+            "Name" = "8:HuaWenCapture"
             "Arguments" = "8:"
             "Description" = "8:"
             "ShowCmd" = "3:1"
             "IconIndex" = "3:0"
             "Transitive" = "11:FALSE"
-            "Target" = "8:_307E3399ED014BC7802AF5D8DFA8AF83"
+            "Target" = "8:_CD4CEBA53C60450496FA400666C20C62"
             "Folder" = "8:_86AA98CD7C144B5CBA5B1949CCB956D4"
             "WorkingFolder" = "8:_2D7E397725C143D2BD55BD832ACAB824"
-            "Icon" = "8:_20EC017326564D979A9A5CCF5776E858"
+            "Icon" = "8:_C714710558184E77AC54617C9ED23415"
             "Feature" = "8:"
             }
         }
@@ -738,9 +746,9 @@
         }
         "ProjectOutput"
         {
-            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_307E3399ED014BC7802AF5D8DFA8AF83"
+            "{5259A561-127C-4D43-A0A1-72F10C7B3BF8}:_CD4CEBA53C60450496FA400666C20C62"
             {
-            "SourcePath" = "8:..\\hua-wen-capture\\obj\\Release\\net10.0-windows\\apphost.exe"
+            "SourcePath" = "8:..\\hwc\\obj\\Release\\net10.0-windows\\apphost.exe"
             "TargetName" = "8:"
             "Tag" = "8:"
             "Folder" = "8:_2D7E397725C143D2BD55BD832ACAB824"
@@ -760,7 +768,7 @@
             "ProjectOutputGroupRegister" = "3:1"
             "OutputConfiguration" = "8:"
             "OutputGroupCanonicalName" = "8:PublishItems"
-            "OutputProjectGuid" = "8:{6CC29280-168B-74DE-FA8E-4F520EBC330C}"
+            "OutputProjectGuid" = "8:{AE4AEA87-DE71-84F8-8E78-FD4D96EC2579}"
             "ShowKeyOutput" = "11:TRUE"
                 "ExcludeFilters"
                 {

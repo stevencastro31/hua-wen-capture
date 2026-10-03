@@ -59,12 +59,13 @@ namespace HuaWenCapture.Controls {
         }
 
         private void AdjustColumnWidth() {
-            int width = (FindForm()!.Width - (160 + 160));
+            int width = (FindForm()!.Width - (160 + 160) - 32);
             colDefinition.Width = $"{width}";
         }
 
         private void OnDictionaryTableLoad(object sender, EventArgs e) {
-            this.Parent!.SizeChanged += OnParentSizeChanged;
+            // lazy solution (TableLayoutPanel > AntdUI.TabsPage)
+            this.Parent!.Parent!.SizeChanged += OnParentSizeChanged;
         }
 
         private void OnParentSizeChanged(object? sender, EventArgs e) {

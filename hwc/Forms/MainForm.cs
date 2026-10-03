@@ -9,15 +9,15 @@ using FolderBrowserDialog = AntdUI.FolderBrowserDialog;
 
 namespace HuaWenCapture {
     public partial class MainForm : AntdUI.BaseForm {
-        readonly string BASE_ICON_DIRECTORY = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");   
-
         public MainForm() {
             InitializeComponent();
 
             tabs1.Font = Static.TabHeaderFont;
             AntdUI.Config.ShowInWindowByNotification = true;
             HotkeyManager.Register("capture", ConfigManager.GetCaptureHotkey(), this.BeginScreenCapture);
-            this.Icon = new Icon(Path.Combine(BASE_ICON_DIRECTORY, "app.ico"));
+            this.Icon = new Icon(Path.Combine(Static.BASE_ICON_DIRECTORY, "app.ico"));
+
+            translationTable1.AddEntry(0.9F, "我的天啊！", "ASdadadadsa", "asdasdasdadsdas");
 
             SetupNotifyIcon();
             SubscribeFormEvents();
@@ -71,11 +71,11 @@ namespace HuaWenCapture {
             notifyIcon1.Text = "华文 Capture";
             notifyIcon1.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
 
-            notifyIcon1.Icon = new Icon(Path.Combine(BASE_ICON_DIRECTORY, "app.ico"));               // made
+            notifyIcon1.Icon = new Icon(Path.Combine(Static.BASE_ICON_DIRECTORY, "app.ico"));               // made
             // from: https://icon-icons.com
-            notifyIcon1.ContextMenuStrip.Items.Add("Capture", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "icon-204560.png")));
-            notifyIcon1.ContextMenuStrip.Items.Add("Screenshots folder...", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "folder_120047.png")));
-            notifyIcon1.ContextMenuStrip.Items.Add("Exit", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "icon-234165.png")));
+            notifyIcon1.ContextMenuStrip.Items.Add("Capture", Image.FromFile(Path.Combine(Static.BASE_ICON_DIRECTORY, "icon-204560.png")));
+            notifyIcon1.ContextMenuStrip.Items.Add("Screenshots folder...", Image.FromFile(Path.Combine(Static.BASE_ICON_DIRECTORY, "folder_120047.png")));
+            notifyIcon1.ContextMenuStrip.Items.Add("Exit", Image.FromFile(Path.Combine(Static.BASE_ICON_DIRECTORY, "icon-234165.png")));
 
             notifyIcon1.DoubleClick += OnNotifyIconMouseDoubleClick;
             notifyIcon1.ContextMenuStrip.Items[0].Click += OnContextMenuCaptureClick;
@@ -169,10 +169,12 @@ namespace HuaWenCapture {
         // setting events
         private void OnStartMinimizedSettingSwitchClick(object sender, AntdUI.BoolEventArgs e) {
             ConfigManager.SetIsStartMinimized(e.Value);
+            ConfigManager.SaveConfig();
         }
 
         private void OnStartOnLaunchSettingSwitchClick(object sender, BoolEventArgs e) {
             ConfigManager.SetIsStartOnLaunch(e.Value);
+            ConfigManager.SaveConfig();
         }
 
         private void OnCapturePathSettingButtonClick(object? sender, EventArgs e) {
@@ -182,6 +184,7 @@ namespace HuaWenCapture {
             if (result == DialogResult.OK) {
                 ConfigManager.SetCapturePath(folderDialog.DirectoryPath);
                 buttonShadow1.Text = ConfigManager.GetCapturePath();
+                ConfigManager.SaveConfig();
             }
         }
 
@@ -199,6 +202,7 @@ namespace HuaWenCapture {
                 } else if (result == RegisterResult.Success) {
                     ConfigManager.SetCaptureHotkey(gesture);
                     translationTable1.UpdateEmptyText();
+                    ConfigManager.SaveConfig();
                 }
             }, onProgress: partial => {
                 if (partial.ToString().Length < 1)

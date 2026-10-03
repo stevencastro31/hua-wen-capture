@@ -34,17 +34,21 @@ namespace HuaWenCapture.Controls {
             ColBreak = true,
             Editable = false,
             Render = (value, record, rowIndex) => {
-                CellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };      // view screenshot
-                CellButton button2 = new($"{rowIndex}") { Text = "查詞典", Id = "DICT" };       // look up dictionary
-                CellButton button3 = new($"{rowIndex}") { Text = "谷歌翻译", Id = "GOOGLE" };     // look up google translate on ocr text
-                button1.Fore = Color.Blue;
-                button2.Fore = Color.Blue;
-                button3.Fore = Color.Blue;
-                return new CellButton[] { button1, button2, button3 };
+                CustomCellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };      // view screenshot
+                CustomCellButton button2 = new($"{rowIndex}") { Text = "查詞典", Id = "DICT" };       // look up dictionary
+                CustomCellButton button3 = new($"{rowIndex}") { Text = "谷歌翻译", Id = "GOOGLE" };     // look up google translate on ocr text
+                button1.Fore = Color.Black;
+                button2.Fore = Color.Black;
+                button3.Fore = Color.White;
+
+                button1.Type = TTypeMini.Success;
+                button2.Type = TTypeMini.Warn;
+                button3.Type = TTypeMini.Info;
+                return new CellButton[] { button1, button2, button3, };
             },
         };
         Column colZh = new("zh", "中文 (OCR/文字识别)") {
-            Width = "308",
+            Width = "276",
             MinWidth = "128",
             ColAlign = ColumnAlign.Center,
             Align = ColumnAlign.Left,
@@ -54,7 +58,7 @@ namespace HuaWenCapture.Controls {
             ReadOnly = true
         };
         Column colEn = new("en", "英文 (Translation/翻译)") {
-            Width = "308",
+            Width = "276",
             MinWidth = "128",
             ColAlign = ColumnAlign.Center,
             Align = ColumnAlign.Left,
@@ -62,6 +66,21 @@ namespace HuaWenCapture.Controls {
             LineBreak = true,
             ColBreak = true,
             ReadOnly = true
+        };
+        Column colDel = new("", "") {
+            Width = "64",
+            ColAlign = ColumnAlign.Center,
+            Align = ColumnAlign.Center,
+            Wrap = true,
+            LineBreak = true,
+            ColBreak = true,
+            Editable = false,
+            Render = (value, record, rowIndex) => {
+                CellButton button1 = new($"{rowIndex}") { Id = "DEL" };      // delete entry
+                button1.Icon = Image.FromFile(Path.Combine(Static.BASE_ICON_DIRECTORY, "delete_icon_128881.png"));
+                button1.Type = TTypeMini.Error;
+                return button1;
+            },
         };
 
         private DataTable _data = new();
@@ -100,7 +119,7 @@ namespace HuaWenCapture.Controls {
         private void SetupTableColumns() {
             table1.ColumnFont = Static.ColumnHeaderFont;
             table1.Font = Static.ColumnFont;
-            table1.Columns.AddRange([colId, colScore, colAction, colZh, colEn]);
+            table1.Columns.AddRange([colId, colScore, colAction, colZh, colEn, colDel]);
             table1.EditMode = TEditMode.DoubleClick;
 
             _data.Columns.Add("id", typeof(int));
@@ -111,7 +130,7 @@ namespace HuaWenCapture.Controls {
         }
 
         private void AdjustColumnWidth() {
-            int width = (FindForm()!.Width - (64 + 80 + 240)) / 2;
+            int width = (FindForm()!.Width - (64 + 64 + 80 + 240) - 32) / 2;
             colZh.Width = $"{width}";
             colEn.Width = $"{width}";
         }
@@ -127,14 +146,18 @@ namespace HuaWenCapture.Controls {
             DataRow dataRow = (DataRow)e.Record!;
             if (e.Btn.Id == "IMAGE") {
                 string filepath = (string)dataRow.ItemArray[2]!;
-                Process.Start(new ProcessStartInfo() { FileName = filepath, UseShellExecute = true });
+                try {
+                    Process.Start(new ProcessStartInfo() { FileName = filepath, UseShellExecute = true });
+                } catch (Exception ex) {
+                    Notification.error(FindForm()!, "Image not found", "", TAlignFrom.BR, autoClose: 3);
+                }
                 return;
             }
 
             if (e.Btn.Id == "DICT") {
                 string zh = (string)dataRow.ItemArray[3]!;
                 if (zh == null || zh.Length < 1) {
-                    Notification.error(FindForm()!, "Invalid Chinese Text", "", TAlignFrom.BR, autoClose: 3);
+                    Notification.error(FindForm()!, "Invalid Chinese text", "", TAlignFrom.BR, autoClose: 3);
                 } else {
                     OnDictionaryLookUp?.Invoke(zh);
                 }
@@ -144,12 +167,17 @@ namespace HuaWenCapture.Controls {
             if (e.Btn.Id == "GOOGLE") {
                 string zh = (string)dataRow.ItemArray[3]!;
                 if (zh == null || zh.Length < 1) {
-                    Notification.error(FindForm()!, "Invalid Chinese Text", "", TAlignFrom.BR, autoClose: 3);
+                    Notification.error(FindForm()!, "Invalid Chinese text", "", TAlignFrom.BR, autoClose: 3);
                 } else {
                     string url = "https://translate.google.com/?sl=zh-CN&tl=en&text=" + dataRow.ItemArray[3];
                     Process.Start(new ProcessStartInfo(url) { UseShellExecute = true });
                 }
                 return;
+            }
+
+            if (e.Btn.Id == "DEL") {
+                _data.Rows.Remove(dataRow);
+                RefreshData();
             }
         }
 
