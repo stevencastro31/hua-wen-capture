@@ -1,0 +1,23 @@
+HuaWenCapture - Third-Party Notices
+
+This project uses the following third-party software:
+
+AntdUI
+[Apache-2.0 license]
+https://github.com/AntdUI/AntdUI
+
+EasyOcrSharp
+[MIT License]
+https://github.com/FarhanLodi/EasyOcrSharp
+
+jieba.NET
+[MIT License]
+https://github.com/anderscui/jieba.NET
+
+OPUS-MT
+[MIT License]
+https://github.com/Helsinki-NLP/Opus-MT
+
+Xenova OPUS-MT model
+[MIT License]
+https://huggingface.co/Xenova/opus-mt-zh-en
