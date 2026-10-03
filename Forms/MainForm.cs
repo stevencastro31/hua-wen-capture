@@ -9,12 +9,15 @@ using FolderBrowserDialog = AntdUI.FolderBrowserDialog;
 
 namespace HuaWenCapture {
     public partial class MainForm : AntdUI.BaseForm {
+        readonly string BASE_ICON_DIRECTORY = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");   
+
         public MainForm() {
             InitializeComponent();
 
             tabs1.Font = Static.TabHeaderFont;
             AntdUI.Config.ShowInWindowByNotification = true;
             HotkeyManager.Register("capture", ConfigManager.GetCaptureHotkey(), this.BeginScreenCapture);
+            this.Icon = new Icon(Path.Combine(BASE_ICON_DIRECTORY, "app.ico"));
 
             SetupNotifyIcon();
             SubscribeEvents();
@@ -65,13 +68,13 @@ namespace HuaWenCapture {
         }
 
         private void SetupNotifyIcon() {
-            notifyIcon1.Icon = SystemIcons.WinLogo;
             notifyIcon1.Text = "华文 Capture";
             notifyIcon1.ContextMenuStrip = new System.Windows.Forms.ContextMenuStrip();
 
-            string baseIconDirectory = Path.Combine(AppContext.BaseDirectory, "Resources", "Icons");    // from: https://icon-icons.com
-            notifyIcon1.ContextMenuStrip.Items.Add("Capture", Image.FromFile(Path.Combine(baseIconDirectory, "icon-204560.png")));
-            notifyIcon1.ContextMenuStrip.Items.Add("Exit", Image.FromFile(Path.Combine(baseIconDirectory, "icon-234165.png")));
+            notifyIcon1.Icon = new Icon(Path.Combine(BASE_ICON_DIRECTORY, "app.ico"));               // made
+            // from: https://icon-icons.com
+            notifyIcon1.ContextMenuStrip.Items.Add("Capture", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "icon-204560.png")));
+            notifyIcon1.ContextMenuStrip.Items.Add("Exit", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "icon-234165.png")));
 
             notifyIcon1.DoubleClick += OnNotifyIconMouseDoubleClick;
             notifyIcon1.ContextMenuStrip.Items[0].Click += OnContextMenuCaptureClick;
@@ -88,6 +91,7 @@ namespace HuaWenCapture {
             switch2.CheckedChanged += OnStartOnLaunchSettingSwitchClick;
             buttonShadow1.Click += OnCapturePathSettingButtonClick;
             buttonShadow2.Click += OnCaptureHotkeySettingButtonClick;
+            buttonShadow1.DoubleClick += OnCapturePathSettingButtonDoubleClick;
         }
 
 
@@ -192,5 +196,10 @@ namespace HuaWenCapture {
                 buttonShadow2.Text = ConfigManager.GetCaptureHotkey().ToString();
             });
         }
+
+        private void OnCapturePathSettingButtonDoubleClick(object? sender, EventArgs e) {
+            Process.Start(new ProcessStartInfo(ConfigManager.GetCapturePath()) { UseShellExecute = true });
+        }
+
     }
 }

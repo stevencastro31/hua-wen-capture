@@ -35,7 +35,7 @@ namespace HuaWenCapture.Controls {
             Editable = false,
             Render = (value, record, rowIndex) => {
                 CellButton button1 = new($"{rowIndex}") { Text = "图片", Id = "IMAGE" };      // view screenshot
-                CellButton button2 = new($"{rowIndex}") { Text = "查字典", Id = "DICT" };       // look up dictionary
+                CellButton button2 = new($"{rowIndex}") { Text = "查詞典", Id = "DICT" };       // look up dictionary
                 CellButton button3 = new($"{rowIndex}") { Text = "谷歌翻译", Id = "GOOGLE" };     // look up google translate on ocr text
                 button1.Fore = Color.Blue;
                 button2.Fore = Color.Blue;
