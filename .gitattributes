@@ -1,1 +1,1 @@
-Resources/Models/** filter=lfs diff=lfs merge=lfs -text
+hwc/Resources/Models/** filter=lfs diff=lfs merge=lfs -text

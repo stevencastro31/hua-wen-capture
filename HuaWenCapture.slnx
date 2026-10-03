@@ -1,3 +1,6 @@
 <Solution>
-  <Project Path="HuaWenCapture.csproj" />
+  <Project Path="./setup/HWCSetup.vdproj" Type="Installer">
+    <Build />
+  </Project>
+  <Project Path="./hwc/HuaWenCapture.csproj" />
 </Solution>
