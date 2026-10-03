@@ -45,6 +45,9 @@
     <None Update="Resources\Dictionary\cedict.db">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
+    <None Update="Resources\Icons\folder_120047.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
     <None Update="Resources\Icons\icon-204560.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>

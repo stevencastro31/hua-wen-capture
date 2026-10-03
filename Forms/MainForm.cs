@@ -20,7 +20,7 @@ namespace HuaWenCapture {
             this.Icon = new Icon(Path.Combine(BASE_ICON_DIRECTORY, "app.ico"));
 
             SetupNotifyIcon();
-            SubscribeEvents();
+            SubscribeFormEvents();
             SetupSettingsUI();
         }
 
@@ -59,7 +59,7 @@ namespace HuaWenCapture {
             return filepath;
         }
 
-        private void SubscribeEvents() {
+        private void SubscribeFormEvents() {
             input1.TextChanged += OnSearchTextChanged;
             translationTable1.OnDictionaryLookUp += OnDictionaryLookUp;
             this.Load += OnLoad;
@@ -74,14 +74,17 @@ namespace HuaWenCapture {
             notifyIcon1.Icon = new Icon(Path.Combine(BASE_ICON_DIRECTORY, "app.ico"));               // made
             // from: https://icon-icons.com
             notifyIcon1.ContextMenuStrip.Items.Add("Capture", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "icon-204560.png")));
+            notifyIcon1.ContextMenuStrip.Items.Add("Screenshots folder...", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "folder_120047.png")));
             notifyIcon1.ContextMenuStrip.Items.Add("Exit", Image.FromFile(Path.Combine(BASE_ICON_DIRECTORY, "icon-234165.png")));
 
             notifyIcon1.DoubleClick += OnNotifyIconMouseDoubleClick;
             notifyIcon1.ContextMenuStrip.Items[0].Click += OnContextMenuCaptureClick;
-            notifyIcon1.ContextMenuStrip.Items[1].Click += OnContextMenuExitClick;
+            notifyIcon1.ContextMenuStrip.Items[1].Click += OnContextMenuScreenshotFolderClick;
+            notifyIcon1.ContextMenuStrip.Items[2].Click += OnContextMenuExitClick;
         }
 
         private void SetupSettingsUI() {
+            button1.Type = TTypeMini.Info;
             switch1.Checked = ConfigManager.GetIsStartMinimized();
             switch2.Checked = ConfigManager.GetIsStartOnLaunch();
             buttonShadow1.Text = ConfigManager.GetCapturePath();
@@ -91,7 +94,11 @@ namespace HuaWenCapture {
             switch2.CheckedChanged += OnStartOnLaunchSettingSwitchClick;
             buttonShadow1.Click += OnCapturePathSettingButtonClick;
             buttonShadow2.Click += OnCaptureHotkeySettingButtonClick;
-            buttonShadow1.DoubleClick += OnCapturePathSettingButtonDoubleClick;
+            button1.Click += OnOpenCapturePathDirectoryButtonClick;
+        }
+
+        private void OpenCaptureDirectory() {
+            Process.Start(new ProcessStartInfo("explorer.exe", ConfigManager.GetCapturePath()) { UseShellExecute = true });
         }
 
 
@@ -133,6 +140,8 @@ namespace HuaWenCapture {
             if (e.CloseReason == CloseReason.UserClosing) {
                 e.Cancel = true;
                 this.Hide();
+                TranslationService.DisposeModels(); // free up memory when not used
+                GC.Collect();
             } else {
                 ConfigManager.SaveConfig();
             }
@@ -147,6 +156,10 @@ namespace HuaWenCapture {
 
         private void OnContextMenuCaptureClick(object? sender, EventArgs e) {
             BeginScreenCapture();
+        }
+
+        private void OnContextMenuScreenshotFolderClick(object? sender, EventArgs e) {
+            OpenCaptureDirectory();
         }
 
         private void OnContextMenuExitClick(object? sender, EventArgs e) {
@@ -197,9 +210,8 @@ namespace HuaWenCapture {
             });
         }
 
-        private void OnCapturePathSettingButtonDoubleClick(object? sender, EventArgs e) {
-            Process.Start(new ProcessStartInfo(ConfigManager.GetCapturePath()) { UseShellExecute = true });
+        private void OnOpenCapturePathDirectoryButtonClick(object? sender, EventArgs e) {
+            OpenCaptureDirectory();
         }
-
     }
 }

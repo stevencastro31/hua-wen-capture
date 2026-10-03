@@ -6,8 +6,8 @@ using System.Text.Json;
 
 namespace HuaWenCapture.Objects {
     internal static class TranslationService {
-        private static readonly InferenceSession _encoder;
-        private static readonly InferenceSession _decoder;
+        private static InferenceSession? _encoder;
+        private static InferenceSession? _decoder;
 
         private static readonly SentencePieceTokenizer _tokenizer;
         private static readonly Dictionary<string, int> _vocab;
@@ -23,10 +23,6 @@ namespace HuaWenCapture.Objects {
         private static readonly string SOURCE_PATH = Path.Combine(MODEL_ROOT_PATH, "source.spm");
 
         static TranslationService() {
-            SessionOptions opts = new SessionOptions { GraphOptimizationLevel = GraphOptimizationLevel.ORT_ENABLE_ALL };
-            _encoder = new InferenceSession(ENCODER_MODEL_PATH, opts);
-            _decoder = new InferenceSession(DECODER_MODEL_PATH, opts);
-
             using FileStream fsSPM = File.OpenRead(SOURCE_PATH);
             _tokenizer = SentencePieceTokenizer.Create(fsSPM, addBeginningOfSentence: false, addEndOfSentence: false);
 
@@ -43,6 +39,8 @@ namespace HuaWenCapture.Objects {
         }
 
         public static string Translate(string text) {
+            LoadModels();
+
             // tokenize text and swap them out to their respective ids
             IReadOnlyList<EncodedToken> pieces = _tokenizer.EncodeToTokens(text, out _);
             long[] inputIds = pieces
@@ -96,6 +94,20 @@ namespace HuaWenCapture.Objects {
                 if (_idToToken.TryGetValue((int)id, out var token) && token != "<unk>")
                     builder.Append(token);
             return builder.ToString().Replace('\u2581', ' ').Trim();
+        }
+    
+        private static void LoadModels() {
+            if (_encoder != null && _decoder != null) return;
+            SessionOptions opts = new() { GraphOptimizationLevel = GraphOptimizationLevel.ORT_ENABLE_ALL };
+            _encoder = new InferenceSession(ENCODER_MODEL_PATH, opts);
+            _decoder = new InferenceSession(DECODER_MODEL_PATH, opts);
+        }
+
+        public static void DisposeModels() {
+            _encoder?.Dispose();
+            _decoder?.Dispose();
+            _encoder = null;
+            _decoder = null;
         }
     }
 }

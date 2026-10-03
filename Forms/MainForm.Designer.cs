@@ -26,8 +26,6 @@
             components = new System.ComponentModel.Container();
             AntdUI.Tabs.StyleLine styleLine1 = new AntdUI.Tabs.StyleLine();
             tabs1 = new AntdUI.Tabs();
-            tabPage1 = new AntdUI.TabPage();
-            translationTable1 = new HuaWenCapture.Controls.TranslationTable();
             tabPage3 = new AntdUI.TabPage();
             tableLayoutPanel2 = new TableLayoutPanel();
             switch2 = new AntdUI.Switch();
@@ -38,15 +36,18 @@
             switch1 = new AntdUI.Switch();
             buttonShadow1 = new AntdUI.ButtonShadow();
             buttonShadow2 = new AntdUI.ButtonShadow();
+            button1 = new AntdUI.Button();
+            tabPage1 = new AntdUI.TabPage();
+            translationTable1 = new HuaWenCapture.Controls.TranslationTable();
             tabPage2 = new AntdUI.TabPage();
             tableLayoutPanel1 = new TableLayoutPanel();
             dictionaryTable1 = new HuaWenCapture.Controls.DictionaryTable();
             input1 = new AntdUI.Input();
             notifyIcon1 = new NotifyIcon(components);
             tabs1.SuspendLayout();
-            tabPage1.SuspendLayout();
             tabPage3.SuspendLayout();
             tableLayoutPanel2.SuspendLayout();
+            tabPage1.SuspendLayout();
             tabPage2.SuspendLayout();
             tableLayoutPanel1.SuspendLayout();
             SuspendLayout();
@@ -55,8 +56,8 @@
             // 
             tabs1.BackColor = Color.White;
             tabs1.Controls.Add(tabPage1);
-            tabs1.Controls.Add(tabPage2);
             tabs1.Controls.Add(tabPage3);
+            tabs1.Controls.Add(tabPage2);
             tabs1.Dock = DockStyle.Fill;
             tabs1.Font = new Font("Microsoft YaHei UI", 14F);
             tabs1.Location = new Point(0, 0);
@@ -68,25 +69,6 @@
             tabs1.Style = styleLine1;
             tabs1.TabIndex = 0;
             tabs1.Text = "tabs1";
-            // 
-            // tabPage1
-            // 
-            tabPage1.Controls.Add(translationTable1);
-            tabPage1.Font = new Font("Microsoft YaHei UI", 14F);
-            tabPage1.Location = new Point(0, 38);
-            tabPage1.Name = "tabPage1";
-            tabPage1.Size = new Size(984, 423);
-            tabPage1.TabIndex = 0;
-            tabPage1.Text = "翻译 (Translations)";
-            // 
-            // translationTable1
-            // 
-            translationTable1.Dock = DockStyle.Fill;
-            translationTable1.Location = new Point(0, 0);
-            translationTable1.Margin = new Padding(6, 5, 6, 5);
-            translationTable1.Name = "translationTable1";
-            translationTable1.Size = new Size(984, 423);
-            translationTable1.TabIndex = 0;
             // 
             // tabPage3
             // 
@@ -106,21 +88,23 @@
             tableLayoutPanel2.ColumnStyles.Add(new ColumnStyle(SizeType.Percent, 100F));
             tableLayoutPanel2.Controls.Add(switch2, 1, 0);
             tableLayoutPanel2.Controls.Add(label4, 0, 0);
-            tableLayoutPanel2.Controls.Add(label3, 0, 3);
+            tableLayoutPanel2.Controls.Add(label3, 0, 4);
             tableLayoutPanel2.Controls.Add(label1, 0, 1);
             tableLayoutPanel2.Controls.Add(label2, 0, 2);
             tableLayoutPanel2.Controls.Add(switch1, 1, 1);
             tableLayoutPanel2.Controls.Add(buttonShadow1, 1, 2);
-            tableLayoutPanel2.Controls.Add(buttonShadow2, 1, 3);
+            tableLayoutPanel2.Controls.Add(buttonShadow2, 1, 4);
+            tableLayoutPanel2.Controls.Add(button1, 1, 3);
             tableLayoutPanel2.Location = new Point(12, 19);
             tableLayoutPanel2.Name = "tableLayoutPanel2";
-            tableLayoutPanel2.RowCount = 5;
+            tableLayoutPanel2.RowCount = 6;
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
+            tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 48F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Absolute, 40F));
             tableLayoutPanel2.RowStyles.Add(new RowStyle(SizeType.Percent, 100F));
-            tableLayoutPanel2.Size = new Size(960, 214);
+            tableLayoutPanel2.Size = new Size(960, 269);
             tableLayoutPanel2.TabIndex = 1;
             // 
             // switch2
@@ -146,7 +130,7 @@
             // label3
             // 
             label3.Font = new Font("Microsoft YaHei UI", 14.25F, FontStyle.Bold);
-            label3.Location = new Point(3, 123);
+            label3.Location = new Point(3, 171);
             label3.Name = "label3";
             label3.Size = new Size(194, 34);
             label3.TabIndex = 3;
@@ -197,13 +181,42 @@
             // buttonShadow2
             // 
             buttonShadow2.Dock = DockStyle.Fill;
-            buttonShadow2.Location = new Point(203, 123);
+            buttonShadow2.Location = new Point(203, 171);
             buttonShadow2.MinimumSize = new Size(400, 0);
             buttonShadow2.Name = "buttonShadow2";
             buttonShadow2.Size = new Size(754, 34);
             buttonShadow2.TabIndex = 6;
             buttonShadow2.Text = "buttonShadow2";
             buttonShadow2.TextAlign = ContentAlignment.MiddleLeft;
+            // 
+            // button1
+            // 
+            button1.Dock = DockStyle.Fill;
+            button1.Location = new Point(203, 123);
+            button1.MinimumSize = new Size(200, 0);
+            button1.Name = "button1";
+            button1.Size = new Size(754, 42);
+            button1.TabIndex = 9;
+            button1.Text = "Open Directory";
+            // 
+            // tabPage1
+            // 
+            tabPage1.Controls.Add(translationTable1);
+            tabPage1.Font = new Font("Microsoft YaHei UI", 14F);
+            tabPage1.Location = new Point(0, 38);
+            tabPage1.Name = "tabPage1";
+            tabPage1.Size = new Size(984, 423);
+            tabPage1.TabIndex = 0;
+            tabPage1.Text = "翻译 (Translations)";
+            // 
+            // translationTable1
+            // 
+            translationTable1.Dock = DockStyle.Fill;
+            translationTable1.Location = new Point(0, 0);
+            translationTable1.Margin = new Padding(6, 5, 6, 5);
+            translationTable1.Name = "translationTable1";
+            translationTable1.Size = new Size(984, 423);
+            translationTable1.TabIndex = 0;
             // 
             // tabPage2
             // 
@@ -264,9 +277,9 @@
             Name = "MainForm";
             Text = "华文 Capture";
             tabs1.ResumeLayout(false);
-            tabPage1.ResumeLayout(false);
             tabPage3.ResumeLayout(false);
             tableLayoutPanel2.ResumeLayout(false);
+            tabPage1.ResumeLayout(false);
             tabPage2.ResumeLayout(false);
             tableLayoutPanel1.ResumeLayout(false);
             ResumeLayout(false);
@@ -291,5 +304,6 @@
         private AntdUI.ButtonShadow buttonShadow2;
         private AntdUI.Switch switch2;
         private AntdUI.Label label4;
+        private AntdUI.Button button1;
     }
 }
